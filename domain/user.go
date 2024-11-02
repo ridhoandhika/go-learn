@@ -2,7 +2,7 @@ package domain
 
 import (
 	"context"
-	"santrikoding/backend-api/dto"
+	"ridhoandhika/backend-api/dto"
 )
 
 type User struct {

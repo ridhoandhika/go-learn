@@ -2,7 +2,7 @@ package util
 
 import (
 	"errors"
-	"santrikoding/backend-api/domain"
+	"ridhoandhika/backend-api/domain"
 )
 
 func GetHttpStatus(err error) int {

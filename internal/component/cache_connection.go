@@ -3,7 +3,7 @@ package component
 import (
 	"context"
 	"log"
-	"santrikoding/backend-api/domain"
+	"ridhoandhika/backend-api/domain"
 	"time"
 
 	"github.com/allegro/bigcache/v3"

@@ -3,9 +3,9 @@ package service
 import (
 	"context"
 	"encoding/json"
-	"santrikoding/backend-api/domain"
-	"santrikoding/backend-api/dto"
-	"santrikoding/backend-api/internal/util"
+	"ridhoandhika/backend-api/domain"
+	"ridhoandhika/backend-api/dto"
+	"ridhoandhika/backend-api/internal/util"
 
 	"golang.org/x/crypto/bcrypt"
 )

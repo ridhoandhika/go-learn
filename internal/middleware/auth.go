@@ -1,8 +1,8 @@
 package middleware
 
 import (
-	"santrikoding/backend-api/domain"
-	"santrikoding/backend-api/internal/util"
+	"ridhoandhika/backend-api/domain"
+	"ridhoandhika/backend-api/internal/util"
 	"strings"
 
 	"github.com/gofiber/fiber/v2"

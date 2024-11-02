@@ -1,12 +1,12 @@
 package main
 
 import (
-	"santrikoding/backend-api/internal/api"
-	"santrikoding/backend-api/internal/component"
-	"santrikoding/backend-api/internal/config"
-	"santrikoding/backend-api/internal/middleware"
-	"santrikoding/backend-api/internal/repository"
-	"santrikoding/backend-api/internal/service"
+	"ridhoandhika/backend-api/internal/api"
+	"ridhoandhika/backend-api/internal/component"
+	"ridhoandhika/backend-api/internal/config"
+	"ridhoandhika/backend-api/internal/middleware"
+	"ridhoandhika/backend-api/internal/repository"
+	"ridhoandhika/backend-api/internal/service"
 
 	"github.com/gofiber/fiber/v2"
 )

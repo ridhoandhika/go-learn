@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
-	"santrikoding/backend-api/internal/config"
+	"ridhoandhika/backend-api/internal/config"
 
 	_ "github.com/lib/pq"
 )

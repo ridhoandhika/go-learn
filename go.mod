@@ -1,4 +1,4 @@
-module santrikoding/backend-api
+module ridhoandhika/backend-api
 
 go 1.23.2
 

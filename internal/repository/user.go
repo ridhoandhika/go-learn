@@ -3,7 +3,7 @@ package repository
 import (
 	"context"
 	"database/sql"
-	"santrikoding/backend-api/domain"
+	"ridhoandhika/backend-api/domain"
 
 	"github.com/doug-martin/goqu/v9"
 )
