@@ -16,7 +16,7 @@ func Get() *Config {
 	return &Config{
 		Server{
 			Host: os.Getenv("SERVER_HOST"),
-			Port: os.Getenv("SERVER_HOST"),
+			Port: os.Getenv("SERVER_PORT"),
 		},
 		Database{
 			Host:     os.Getenv("DATABASE_HOST"),
