@@ -10,8 +10,7 @@ import (
 )
 
 func GetCacheConnection() domain.CacheRepository {
-	// bigcache := bigcache.BigCache{}
-	cache, err := bigcache.New(context.Background(), bigcache.DefaultConfig(10*time.Minute))
+	cache, err := bigcache.New(context.Background(), bigcache.DefaultConfig(time.Hour*24))
 	if err != nil {
 		log.Fatalf("error connect cache %s", err.Error())
 	}
