@@ -2,11 +2,11 @@ package service
 
 import (
 	"context"
-	"encoding/json"
 	"ridhoandhika/backend-api/domain"
 	"ridhoandhika/backend-api/dto"
 	"ridhoandhika/backend-api/internal/util"
 
+	"github.com/golang-jwt/jwt/v5"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -15,10 +15,9 @@ type userService struct {
 	cacheRepository domain.CacheRepository
 }
 
-func User(userRepository domain.UserRepository, cacheRepository domain.CacheRepository) domain.UserService {
+func User(userRepository domain.UserRepository) domain.UserService {
 	return &userService{
-		userRepository:  userRepository,
-		cacheRepository: cacheRepository,
+		userRepository: userRepository,
 	}
 }
 
@@ -45,9 +44,6 @@ func (u userService) Authenticate(ctx context.Context, req dto.AuthReq) (dto.Bas
 		return util.ErrorResponse("401", "Tidak Berwenang", "Unauthorized"), err
 	}
 
-	userJson, _ := json.Marshal(user)
-	_ = u.cacheRepository.Set("user:"+token, userJson)
-
 	return dto.BaseResp{
 		ErrorSchema: dto.ErrorSchema{
 			ErrorCode: "200",
@@ -64,29 +60,40 @@ func (u userService) Authenticate(ctx context.Context, req dto.AuthReq) (dto.Bas
 }
 
 func (u userService) ValidateToken(ctx context.Context, token string) (dto.BaseResp, error) {
-	data, err := u.cacheRepository.Get("user:" + token)
+	// Memverifikasi token menggunakan VerifyToken
+	tokenResp, err := util.VerifyToken(token)
 	if err != nil {
-		// return dto.UserData{}, domain.ErrAuthFailed
+		// Jika token tidak valid, mengembalikan response error
 		return util.ErrorResponse("401", "Tidak Berwenang", "Unauthorized"), err
 	}
 
-	var user domain.User
+	claims, ok := tokenResp.Claims.(jwt.MapClaims)
+	if !ok {
+		return util.ErrorResponse("500", "Internal Server Error", "Unable to parse claims"), nil
+	}
 
-	_ = json.Unmarshal(data, &user)
+	// Mengambil nilai 'exp' dari klaim
+	username, ok := claims["username"].(string) // Klaim 'exp' biasanya bertipe float64
+	if !ok {
+		return util.ErrorResponse("500", "Internal Server Error", "Expiration time not found"), nil
+	}
 
+	newToken, err := util.GenerateTokenJWT(username)
+	if err != nil {
+		return util.ErrorResponse("401", "Tidak Berwenang", "Unauthorized"), err
+	}
+
+	// Mengembalikan response dengan data yang diinginkan
 	return dto.BaseResp{
 		ErrorSchema: dto.ErrorSchema{
 			ErrorCode: "200",
 			ErrorMessage: dto.ErrorMessage{
-				Id: "Sukes",
+				Id: "Sukses", // Perbaiki pengejaan dari "Sukes" menjadi "Sukses"
 				En: "Success",
 			},
 		},
-		OutputSchema: dto.UserData{
-			ID:       user.ID,
-			Fullname: user.Fullname,
-			Phone:    user.Phone,
-			Usename:  user.Usename,
+		OutputSchema: dto.AuthResp{
+			AccessToken: newToken,
 		},
 	}, nil
 }

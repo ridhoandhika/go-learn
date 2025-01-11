@@ -14,11 +14,11 @@ import (
 func main() {
 	cnf := config.Get()
 	dbConnection := component.GetDatabaseConnection(cnf)
-	cacheConnection := component.GetCacheConnection()
+	// cacheConnection := component.GetCacheConnection()
 
 	userRepository := repository.User(dbConnection)
 
-	userService := service.User(userRepository, cacheConnection)
+	userService := service.User(userRepository)
 
 	authMiddleware := middleware.Authenticate(userService)
 
