@@ -16,9 +16,11 @@ type User struct {
 type UserRepository interface {
 	FindByID(ctx context.Context, id int64) (User, error)
 	FindByUsername(ctx context.Context, username string) (User, error)
+	InsertUser(ctx context.Context, req dto.UserRegisterReq) (interface{}, error)
 }
 
 type UserService interface {
-	Authenticate(ctx context.Context, req dto.AuthReq) (dto.AuthResp, error)
-	ValidateToken(ctx context.Context, token string) (dto.UserData, error)
+	Authenticate(ctx context.Context, req dto.AuthReq) (dto.BaseResp, error)
+	ValidateToken(ctx context.Context, token string) (dto.BaseResp, error)
+	Register(ctx context.Context, req dto.UserRegisterReq) (dto.BaseResp, error)
 }
