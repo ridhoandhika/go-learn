@@ -16,14 +16,16 @@ func main() {
 	dbConnection := component.GetDatabaseConnection(cnf)
 	cacheConnection := component.GetCacheConnection()
 
-	userRepository := repository.NewUser(dbConnection)
-	userService := service.NewUser(userRepository, cacheConnection)
+	userRepository := repository.User(dbConnection)
+
+	userService := service.User(userRepository, cacheConnection)
 
 	authMiddleware := middleware.Authenticate(userService)
 
 	app := fiber.New()
-
-	api.NewAuth(app, userService, authMiddleware)
+	apiRoutes := app.Group("api")
+	// route
+	api.Auth(apiRoutes.(*fiber.Group), userService, authMiddleware)
 
 	app.Listen(cnf.Server.Host + ":" + cnf.Server.Port)
 }
