@@ -1,17 +1,24 @@
 package util
 
 import (
-	"math/rand"
+	"time"
+
+	"github.com/golang-jwt/jwt/v5"
 )
 
-func GenerateRandomString(n int) string {
-	var charsets = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
+var secretKey = []byte("secret-key")
 
-	letters := make([]rune, n)
+func GenerateTokenJWT(username string) (string, error) {
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256,
+		jwt.MapClaims{
+			"username": username,
+			"exp":      time.Now().Add(time.Hour * 24).Unix(),
+		})
 
-	for i := range letters {
-		letters[i] = charsets[rand.Intn(len(charsets))]
+	tokenString, err := token.SignedString(secretKey)
+	if err != nil {
+		return "", err
 	}
 
-	return string(letters)
+	return tokenString, nil
 }
