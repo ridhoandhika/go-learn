@@ -2,58 +2,56 @@ package repository
 
 import (
 	"context"
-	"database/sql"
 	"ridhoandhika/backend-api/domain"
 	"ridhoandhika/backend-api/dto"
 
-	"github.com/doug-martin/goqu/v9"
+	"github.com/google/uuid"
+	"gorm.io/gorm"
 )
 
 type userRepository struct {
-	db *goqu.Database
+	db *gorm.DB
 }
 
-func User(con *sql.DB) domain.UserRepository {
+func User(con *gorm.DB) domain.UserRepository {
 	return &userRepository{
-		db: goqu.New("default", con),
+		db: con,
 	}
 }
 
 func (u userRepository) FindByID(ctx context.Context, id int64) (user domain.User, err error) {
-	dataset := u.db.From("user").Where(goqu.Ex{
-		"id": id,
-	})
-
-	_, err = dataset.ScanStructContext(ctx, &user)
+	err = u.db.WithContext(ctx).Where("id = ?", id).First(&user).Error
 	return
 }
 
 func (u userRepository) FindByUsername(ctx context.Context, username string) (user domain.User, err error) {
-	dataset := u.db.From("user").Where(goqu.Ex{
-		"username": username,
-	})
-
-	_, err = dataset.ScanStructContext(ctx, &user)
+	err = u.db.WithContext(ctx).Where("username = ?", username).First(&user).Error
 	return
 }
 
 func (u userRepository) InsertUser(ctx context.Context, req dto.UserRegisterReq) (interface{}, error) {
-	dataset := u.db.Insert("user").Cols("username", "password", "phone", "fullname").Vals(goqu.Vals{req.Username, req.Password, req.Phone, req.Fullname})
 
-	// Menjalankan query dan menyimpan hasilnya
-	sql, _, err := dataset.ToSQL()
+	// user := domain.User{
+	// 	Username: req.Username,
+	// 	Password: req.Password,
+	// 	Phone:    req.Phone,
+	// 	Fullname: req.Fullname,
+	// }
+
+	user := domain.User{
+		ID:       uuid.New(), // Generate UUID baru
+		Username: req.Username,
+		Password: req.Password,
+		Phone:    req.Phone,
+		Fullname: req.Fullname,
+	}
+
+	// Menyisipkan user baru ke dalam tabel
+	err := u.db.WithContext(ctx).Create(&user).Error
 	if err != nil {
 		return nil, err
 	}
 
-	// Eksekusi query INSERT
-	_, err = u.db.ExecContext(ctx, sql)
-	if err != nil {
-		return nil, err
-	}
-
-	// Menyediakan hasil query jika diperlukan, misalnya ID user yang baru dimasukkan
-	// bisa menggunakan cara yang sesuai untuk pengembalian data
-	return nil, nil // Bisa dikembangkan jika ingin mengembalikan data lebih lanjut
-
+	// Kembalikan ID user yang baru saja dimasukkan
+	return nil, nil
 }

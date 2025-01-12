@@ -18,7 +18,7 @@ func Auth(app *fiber.Group, userService domain.UserService, authMid fiber.Handle
 	}
 	app.Post("auth/login", handler.GenerateToken)
 	app.Get("auth/refresh", authMid, handler.ValidateToken)
-	app.Post("user/register", handler.Register)
+	app.Post("auth/register", handler.Register)
 }
 
 func (a authApi) GenerateToken(ctx *fiber.Ctx) error {

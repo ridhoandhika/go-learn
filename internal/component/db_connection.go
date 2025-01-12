@@ -1,15 +1,17 @@
 package component
 
 import (
-	"database/sql"
 	"fmt"
 	"log"
+	"ridhoandhika/backend-api/domain"
 	"ridhoandhika/backend-api/internal/config"
 
 	_ "github.com/lib/pq"
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
 )
 
-func GetDatabaseConnection(cnf *config.Config) *sql.DB {
+func GetDatabaseConnection(cnf *config.Config) *gorm.DB {
 	dsn := fmt.Sprintf(
 		"host=%s "+
 			"port=%s "+
@@ -23,16 +25,23 @@ func GetDatabaseConnection(cnf *config.Config) *sql.DB {
 		cnf.Database.Password,
 		cnf.Database.Name)
 
-	connection, err := sql.Open("postgres", dsn)
+	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 
+	// Mengecek apakah koneksi dapat di-"ping"
+	sqlDB, err := db.DB()
 	if err != nil {
-		log.Fatalf("error open connection %s", err.Error())
+		log.Fatalf("error open connection %v", err.Error())
 	}
 
-	err = connection.Ping()
-	if err != nil {
-		log.Fatalf("error open connection %s", err.Error())
+	if err := sqlDB.Ping(); err != nil {
+		log.Fatalf("error open connection %v", err.Error())
 	}
 
-	return connection
+	// Melakukan migrasi ke database (membuat tabel user jika belum ada)
+	err = db.AutoMigrate(&domain.User{})
+	if err != nil {
+		log.Fatalf("Gagal melakukan migrasi: %v", err)
+	}
+
+	return db
 }

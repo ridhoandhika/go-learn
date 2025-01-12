@@ -25,7 +25,7 @@ func (u userService) Authenticate(ctx context.Context, req dto.AuthReq) (dto.Bas
 	// get user by username
 	user, err := u.userRepository.FindByUsername(ctx, req.Username)
 	if err != nil {
-		return util.ErrorResponse("404", "User tidak ditemukan", "User not found"), err
+		return util.ErrorResponse("404", "User tidak ditemukan", "User not found"), nil
 	}
 
 	if user == (domain.User{}) {
@@ -35,7 +35,7 @@ func (u userService) Authenticate(ctx context.Context, req dto.AuthReq) (dto.Bas
 	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(req.Password))
 	if err != nil {
 		// Jika password tidak cocok, kembalikan error 401 Unauthorized
-		return util.ErrorResponse("401", "Tidak Berwenang", "Unauthorized"), err
+		return util.ErrorResponse("401", "Tidak Berwenang", "Unauthorized"), nil
 	}
 
 	// generate jwt
@@ -64,7 +64,7 @@ func (u userService) ValidateToken(ctx context.Context, token string) (dto.BaseR
 	tokenResp, err := util.VerifyToken(token)
 	if err != nil {
 		// Jika token tidak valid, mengembalikan response error
-		return util.ErrorResponse("401", "Tidak Berwenang", "Unauthorized"), err
+		return util.ErrorResponse("401", "Tidak Berwenang", "Unauthorized"), nil
 	}
 
 	claims, ok := tokenResp.Claims.(jwt.MapClaims)
@@ -80,7 +80,7 @@ func (u userService) ValidateToken(ctx context.Context, token string) (dto.BaseR
 
 	newToken, err := util.GenerateTokenJWT(username)
 	if err != nil {
-		return util.ErrorResponse("401", "Tidak Berwenang", "Unauthorized"), err
+		return util.ErrorResponse("401", "Tidak Berwenang", "Unauthorized"), nil
 	}
 
 	// Mengembalikan response dengan data yang diinginkan
