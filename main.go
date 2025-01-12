@@ -8,6 +8,7 @@ import (
 	"ridhoandhika/backend-api/internal/repository"
 	"ridhoandhika/backend-api/internal/service"
 
+	"github.com/gofiber/contrib/swagger"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -25,8 +26,20 @@ func main() {
 	authMiddleware := middleware.Authenticate(userService)
 
 	app := fiber.New()
+	// Tentukan konfigurasi Swagger
+	cfg := swagger.Config{
+		BasePath: "/",
+		FilePath: "./docs/swagger.json", // Path menuju file swagger.json
+		Path:     "/swagger",            // Swagger UI akan dapat diakses di /swagger
+		Title:    "Swagger API Docs",
+	}
+
+	// Gunakan middleware Swagger
+	app.Use(swagger.New(cfg))
+
 	apiRoutes := app.Group("api")
 	// route
+
 	api.Auth(apiRoutes.(*fiber.Group), userService, authMiddleware)
 	api.PersonalInformation(apiRoutes.(*fiber.Group), personalInfoService, authMiddleware)
 

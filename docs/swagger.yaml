@@ -1,0 +1,318 @@
+definitions:
+  dto.AuthReq:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  dto.BaseResp:
+    properties:
+      error_schema:
+        $ref: '#/definitions/dto.ErrorSchema'
+      output_schema:
+        description: OutputSchema fleksibel (bisa berisi apa saja)
+    type: object
+  dto.ErrorMessage:
+    properties:
+      en:
+        type: string
+      id:
+        type: string
+    type: object
+  dto.ErrorSchema:
+    properties:
+      error_code:
+        type: string
+      error_message:
+        $ref: '#/definitions/dto.ErrorMessage'
+    type: object
+  dto.InsertPersonalInformationReq:
+    properties:
+      address:
+        type: string
+      date_of_birth:
+        type: string
+      email:
+        type: string
+      first_name:
+        type: string
+      last_name:
+        type: string
+      phone_number:
+        type: string
+      summary:
+        type: string
+      user_id:
+        type: string
+    type: object
+  dto.PersonalInformationResp:
+    properties:
+      address:
+        type: string
+      date_of_birth:
+        type: string
+      email:
+        type: string
+      first_name:
+        type: string
+      last_name:
+        type: string
+      personal_info_id:
+        type: string
+      phone_number:
+        type: string
+      summary:
+        type: string
+      user_id:
+        type: string
+    type: object
+  dto.UpdatePersonalInformationReq:
+    properties:
+      address:
+        type: string
+      date_of_birth:
+        type: string
+      email:
+        type: string
+      first_name:
+        type: string
+      last_name:
+        type: string
+      phone_number:
+        type: string
+      summary:
+        type: string
+    type: object
+  dto.UserRegisterReq:
+    properties:
+      fullname:
+        type: string
+      password:
+        type: string
+      phone:
+        type: string
+      username:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /api/auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Authenticate user and generate JWT token
+      parameters:
+      - description: Login Credentials
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.AuthReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: JWT Token
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.BaseResp'
+            - properties:
+                outputSchema:
+                  type: string
+              type: object
+        "400":
+          description: Invalid Request
+          schema:
+            $ref: '#/definitions/dto.ErrorSchema'
+        "401":
+          description: Authentication Failed
+          schema:
+            $ref: '#/definitions/dto.ErrorSchema'
+      summary: Generate Token for Authentication
+      tags:
+      - auth
+  /api/auth/refresh:
+    get:
+      consumes:
+      - application/json
+      description: Refresh the JWT token for a logged-in user
+      parameters:
+      - description: Bearer JWT Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: New JWT Token
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.BaseResp'
+            - properties:
+                outputSchema:
+                  type: string
+              type: object
+        "401":
+          description: Authentication Failed
+          schema:
+            $ref: '#/definitions/dto.ErrorSchema'
+      security:
+      - BearerAuth: []
+      summary: Refresh JWT Token
+      tags:
+      - auth
+  /api/auth/register:
+    post:
+      consumes:
+      - application/json
+      description: Register a new user by providing user credentials
+      parameters:
+      - description: User Registration Request
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UserRegisterReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Registration Success
+          schema:
+            $ref: '#/definitions/dto.BaseResp'
+        "400":
+          description: Invalid Request
+          schema:
+            $ref: '#/definitions/dto.ErrorSchema'
+        "409":
+          description: User already exists
+          schema:
+            $ref: '#/definitions/dto.ErrorSchema'
+      summary: Register a new user
+      tags:
+      - auth
+  /api/personal_information:
+    post:
+      consumes:
+      - application/json
+      description: Retrieve detailed personal information by ID
+      parameters:
+      - description: Bearer JWT Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Body Request
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.InsertPersonalInformationReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Personal Information Details
+          schema:
+            $ref: '#/definitions/dto.BaseResp'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorSchema'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/dto.ErrorSchema'
+      security:
+      - BearerAuth  // Menunjukkan endpoint membutuhkan otentikasi Bearer token: []
+      summary: Insert Personal Information
+      tags:
+      - personal-information
+  /api/personal_information/:personalInfoID:
+    put:
+      consumes:
+      - application/json
+      description: Retrieve detailed personal information by ID
+      parameters:
+      - description: Bearer JWT Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Personal Information ID
+        in: path
+        name: personalInfoID
+        required: true
+        type: string
+      - description: Body Request
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdatePersonalInformationReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Personal Information Details
+          schema:
+            $ref: '#/definitions/dto.BaseResp'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorSchema'
+      security:
+      - BearerAuth  // Menunjukkan endpoint membutuhkan otentikasi Bearer token: []
+      summary: Update Personal Information
+      tags:
+      - personal-information
+  /api/personal_information/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve detailed personal information by ID
+      parameters:
+      - description: Bearer JWT Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Personal Information ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Personal Information Details
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.BaseResp'
+            - properties:
+                outputSchema:
+                  $ref: '#/definitions/dto.PersonalInformationResp'
+              type: object
+        "400":
+          description: Invalid Request
+          schema:
+            $ref: '#/definitions/dto.ErrorSchema'
+        "401":
+          description: Authentication Failed
+          schema:
+            $ref: '#/definitions/dto.ErrorSchema'
+        "404":
+          description: User Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrorSchema'
+      security:
+      - BearerAuth  // Menunjukkan endpoint membutuhkan otentikasi Bearer token: []
+      summary: Get Personal Information
+      tags:
+      - personal-information
+swagger: "2.0"

@@ -26,9 +26,6 @@ func (u personalInformationService) FindByIDPeronalInfo(ctx context.Context, id 
 	if err != nil {
 		return util.ErrorResponse("404", "User tidak ditemukan", "User not found"), nil
 	}
-	if err != nil {
-		return util.ErrorResponse("404", "User tidak ditemukan", "User not found"), nil
-	}
 
 	return dto.BaseResp{
 		ErrorSchema: dto.ErrorSchema{
