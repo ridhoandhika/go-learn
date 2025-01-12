@@ -4,6 +4,7 @@ import (
 	"ridhoandhika/backend-api/domain"
 	"ridhoandhika/backend-api/dto"
 	"ridhoandhika/backend-api/internal/util"
+	"strings"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -29,22 +30,61 @@ func (a authApi) GenerateToken(ctx *fiber.Ctx) error {
 
 	token, err := a.userService.Authenticate(ctx.Context(), req)
 	if err != nil {
-		return ctx.SendStatus(util.GetHttpStatus(err))
+		return ctx.SendStatus(util.GetHttpStatus(domain.ErrAuthFailed))
 	}
 
-	return ctx.Status(200).JSON(token)
+	return ctx.Status(200).JSON(dto.BaseResp{
+		ErrorSchema: dto.ErrorSchema{
+			ErrorCode: "200",
+			ErrorMessage: dto.ErrorMessage{
+				Id: "Sukses", // Perbaiki pengejaan dari "Sukes" menjadi "Sukses"
+				En: "Success",
+			},
+		},
+		OutputSchema: token,
+	})
 }
 
 func (a authApi) ValidateToken(ctx *fiber.Ctx) error {
-	user := ctx.Locals("x-user")
+	authHeader := ctx.Get("Authorization")
 
-	return ctx.Status(200).JSON(user)
+	// Memparsing token (memisahkan Bearer dan token)
+	parts := strings.Split(authHeader, " ")
+	if len(parts) != 2 || parts[0] != "Bearer" {
+		return ctx.SendStatus(util.GetHttpStatus(domain.ErrAuthFailed))
+	}
+
+	token := parts[1]
+	user, err := a.userService.ValidateToken(ctx.Context(), token)
+	if err != nil {
+		// Jika token tidak valid atau error lain
+		return ctx.SendStatus(util.GetHttpStatus(domain.ErrAuthFailed))
+	}
+
+	return ctx.Status(200).JSON(dto.BaseResp{
+		ErrorSchema: dto.ErrorSchema{
+			ErrorCode: "200",
+			ErrorMessage: dto.ErrorMessage{
+				Id: "Sukses", // Perbaiki pengejaan dari "Sukes" menjadi "Sukses"
+				En: "Success",
+			},
+		},
+		OutputSchema: user,
+	})
 }
 
 func (a authApi) Register(ctx *fiber.Ctx) error {
 	var req dto.UserRegisterReq
 	if err := ctx.BodyParser(&req); err != nil {
-		return ctx.SendStatus(400)
+		return ctx.Status(200).JSON(dto.BaseResp{
+			ErrorSchema: dto.ErrorSchema{
+				ErrorCode: "400",
+				ErrorMessage: dto.ErrorMessage{
+					Id: "Permintaan Tidak Valid",
+					En: "Bad Request",
+				},
+			},
+		})
 	}
 
 	user, err := a.userService.Register(ctx.Context(), req)

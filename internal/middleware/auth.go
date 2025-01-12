@@ -10,14 +10,21 @@ import (
 
 func Authenticate(userService domain.UserService) fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
-		token := strings.ReplaceAll(ctx.Get("Authorization"), "Bearer ", "")
+		authHeader := ctx.Get("Authorization")
+		token := strings.ReplaceAll(authHeader, "Bearer ", "")
 		if token == "" {
-			return ctx.SendStatus(401)
+			return ctx.SendStatus(util.GetHttpStatus(domain.ErrAuthFailed))
+		}
+
+		// Memparsing token (memisahkan Bearer dan token)
+		parts := strings.Split(authHeader, " ")
+		if len(parts) != 2 || parts[0] != "Bearer" {
+			return ctx.SendStatus(util.GetHttpStatus(domain.ErrAuthFailed))
 		}
 
 		user, err := userService.ValidateToken(ctx.Context(), token)
 		if err != nil {
-			return ctx.SendStatus(util.GetHttpStatus(err))
+			return ctx.SendStatus(util.GetHttpStatus(domain.ErrAuthFailed))
 		}
 
 		ctx.Locals("x-user", user)

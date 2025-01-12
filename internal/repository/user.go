@@ -19,7 +19,7 @@ func User(con *gorm.DB) domain.UserRepository {
 	}
 }
 
-func (u userRepository) FindByID(ctx context.Context, id int64) (user domain.User, err error) {
+func (u userRepository) FindByID(ctx context.Context, id uuid.UUID) (user domain.User, err error) {
 	err = u.db.WithContext(ctx).Where("id = ?", id).First(&user).Error
 	return
 }

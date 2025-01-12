@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"errors"
 	"ridhoandhika/backend-api/domain"
 	"ridhoandhika/backend-api/dto"
 	"ridhoandhika/backend-api/internal/util"
@@ -11,8 +12,7 @@ import (
 )
 
 type userService struct {
-	userRepository  domain.UserRepository
-	cacheRepository domain.CacheRepository
+	userRepository domain.UserRepository
 }
 
 func User(userRepository domain.UserRepository) domain.UserService {
@@ -21,80 +21,59 @@ func User(userRepository domain.UserRepository) domain.UserService {
 	}
 }
 
-func (u userService) Authenticate(ctx context.Context, req dto.AuthReq) (dto.BaseResp, error) {
+func (u userService) Authenticate(ctx context.Context, req dto.AuthReq) (dto.AuthResp, error) {
 	// get user by username
 	user, err := u.userRepository.FindByUsername(ctx, req.Username)
 	if err != nil {
-		return util.ErrorResponse("404", "User tidak ditemukan", "User not found"), nil
-	}
-
-	if user == (domain.User{}) {
-		return util.ErrorResponse("404", "User tidak ditemukan", "User not found"), err
+		return dto.AuthResp{}, errors.New("401")
+		// return util.ErrorResponse("404", "User tidak ditemukan", "User not found"), nil
 	}
 
 	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(req.Password))
 	if err != nil {
 		// Jika password tidak cocok, kembalikan error 401 Unauthorized
-		return util.ErrorResponse("401", "Tidak Berwenang", "Unauthorized"), nil
+		return dto.AuthResp{}, errors.New("401")
 	}
 
 	// generate jwt
 	token, err := util.GenerateTokenJWT(req.Username)
 	if err != nil {
-		return util.ErrorResponse("401", "Tidak Berwenang", "Unauthorized"), err
+		return dto.AuthResp{}, errors.New("401")
 	}
 
-	return dto.BaseResp{
-		ErrorSchema: dto.ErrorSchema{
-			ErrorCode: "200",
-			ErrorMessage: dto.ErrorMessage{
-				Id: "Sukes",
-				En: "Success",
-			},
-		},
-		OutputSchema: dto.AuthResp{
-			AccessToken: token,
-		},
+	return dto.AuthResp{
+		AccessToken: token,
 	}, nil
 
 }
 
-func (u userService) ValidateToken(ctx context.Context, token string) (dto.BaseResp, error) {
+func (u userService) ValidateToken(ctx context.Context, token string) (dto.AuthResp, error) {
 	// Memverifikasi token menggunakan VerifyToken
 	tokenResp, err := util.VerifyToken(token)
 	if err != nil {
 		// Jika token tidak valid, mengembalikan response error
-		return util.ErrorResponse("401", "Tidak Berwenang", "Unauthorized"), nil
+		return dto.AuthResp{}, errors.New("invalid")
 	}
 
 	claims, ok := tokenResp.Claims.(jwt.MapClaims)
 	if !ok {
-		return util.ErrorResponse("500", "Internal Server Error", "Unable to parse claims"), nil
+		return dto.AuthResp{}, errors.New("invalid")
 	}
 
 	// Mengambil nilai 'exp' dari klaim
 	username, ok := claims["username"].(string) // Klaim 'exp' biasanya bertipe float64
 	if !ok {
-		return util.ErrorResponse("500", "Internal Server Error", "Expiration time not found"), nil
+		return dto.AuthResp{}, errors.New("invalid")
 	}
 
 	newToken, err := util.GenerateTokenJWT(username)
 	if err != nil {
-		return util.ErrorResponse("401", "Tidak Berwenang", "Unauthorized"), nil
+		return dto.AuthResp{}, errors.New("invalid")
 	}
 
 	// Mengembalikan response dengan data yang diinginkan
-	return dto.BaseResp{
-		ErrorSchema: dto.ErrorSchema{
-			ErrorCode: "200",
-			ErrorMessage: dto.ErrorMessage{
-				Id: "Sukses", // Perbaiki pengejaan dari "Sukes" menjadi "Sukses"
-				En: "Success",
-			},
-		},
-		OutputSchema: dto.AuthResp{
-			AccessToken: newToken,
-		},
+	return dto.AuthResp{
+		AccessToken: newToken,
 	}, nil
 }
 
@@ -103,7 +82,7 @@ func (u userService) Register(ctx context.Context, req dto.UserRegisterReq) (dto
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
 
 	if err != nil {
-		return util.ErrorResponse("400", "Permintaan Salah", "Bad Request"), err
+		return util.ErrorResponse("400", "Permintaan Tidak Valid", "Bad Request"), nil
 	}
 	// change value to hashed
 	req.Password = string(hashedPassword)
@@ -111,7 +90,7 @@ func (u userService) Register(ctx context.Context, req dto.UserRegisterReq) (dto
 	// insert to db
 	_, err = u.userRepository.InsertUser(ctx, req)
 	if err != nil {
-		return util.ErrorResponse("400", "Permintaan Salah", "Bad Request"), err
+		return util.ErrorResponse("400", "Permintaan Tidak Valid", "Bad Request"), nil
 	}
 	// return response
 	return util.ErrorResponse("200", "Sukses", "Success"), nil
