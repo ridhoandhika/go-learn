@@ -1,7 +1,7 @@
 package dto
 
 type ErrorMessage struct {
-	Id string `json:"in"`
+	Id string `json:"id"`
 	En string `json:"en"`
 }
 

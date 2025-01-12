@@ -25,7 +25,7 @@ func GetDatabaseConnection(cnf *config.Config) *gorm.DB {
 		cnf.Database.Password,
 		cnf.Database.Name)
 
-	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	db, _ := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 
 	// Mengecek apakah koneksi dapat di-"ping"
 	sqlDB, err := db.DB()
@@ -38,7 +38,7 @@ func GetDatabaseConnection(cnf *config.Config) *gorm.DB {
 	}
 
 	// Melakukan migrasi ke database (membuat tabel user jika belum ada)
-	err = db.AutoMigrate(&domain.User{})
+	err = db.AutoMigrate(&domain.User{}, &domain.PersonalInformation{}, &domain.WorkExperience{})
 	if err != nil {
 		log.Fatalf("Gagal melakukan migrasi: %v", err)
 	}

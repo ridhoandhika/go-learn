@@ -17,8 +17,10 @@ func main() {
 	// cacheConnection := component.GetCacheConnection()
 
 	userRepository := repository.User(dbConnection)
+	personalInfoRepository := repository.PersonalInformation((dbConnection))
 
 	userService := service.User(userRepository)
+	personalInfoService := service.PersonalInformation(personalInfoRepository)
 
 	authMiddleware := middleware.Authenticate(userService)
 
@@ -26,6 +28,7 @@ func main() {
 	apiRoutes := app.Group("api")
 	// route
 	api.Auth(apiRoutes.(*fiber.Group), userService, authMiddleware)
+	api.PersonalInformation(apiRoutes.(*fiber.Group), personalInfoService, authMiddleware)
 
 	app.Listen(cnf.Server.Host + ":" + cnf.Server.Port)
 }
