@@ -1,23 +1,5 @@
 version: "3.6"
 services:
-  goservice:
-    build: "."
-    env_file: .env # Menggunakan file .env dari host
-    environment:
-      - SERVER_HOST=localhost
-      - SERVER_PORT=8080
-      - DATABASE_HOST=localhost
-      - DATABASE_PORT=5434
-      - DATABASE_USER=postgres
-      - DATABASE_PASSWORD=password
-      - DATABASE_NAME=godof
-    ports:
-      - "8080:8080"
-    depends_on:
-      - pgsql
-    networks:
-      - mynetwork  # Pastikan goservice menggunakan jaringan yang sama
-
   pgsql:
     build: './docker/database'
     container_name: pgsql
@@ -26,13 +8,37 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: postgres
     ports:
-      - "5434:5432" # Mengganti port host menjadi 5434
+      - "5432:5432" # Mengganti port host menjadi 5434
+    restart: always
     volumes:
       - pgdata:/var/lib/postgresql/data
+      - ./dbshell:/docker-entrypoint-initdb.d/
     networks:
       - mynetwork
-
- # nginx:
+  goservice:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: goservice
+    env_file: .env # Menggunakan file .env dari host
+    environment:
+      SERVER_HOST: goservice
+      SERVER_PORT: 8080
+      DATABASE_HOST: pgsql
+      DATABASE_PORT: 5432
+      DATABASE_USER: postgres
+      DATABASE_PASSWORD: postgres
+      DATABASE_NAME: postgres
+    ports:
+      - "8080:8080"
+    restart: always
+    volumes:
+      - api_volume:/usr/src/app/
+    depends_on:
+      - pgsql
+    networks:
+      - mynetwork # Pastikan goservice menggunakan jaringan yang sama
+  # nginx:
   #  build: "./docker/nginx"
   #  ports:
   #    - "80:80"
@@ -42,8 +48,10 @@ services:
   #    - mynetwork  # Pastikan ini sesuai jika Anda menggunakan jaringan khusus
 
 networks:
-  mynetwork:  # Jika menggunakan jaringan khusus
+  mynetwork:
+    # Jika menggunakan jaringan khusus
     driver: bridge
 
 volumes:
   pgdata:
+  api_volume:
