@@ -12,7 +12,7 @@ import (
 type PersonalInformation struct {
 	gorm.Model
 	PersonalInfoID uuid.UUID `gorm:"type:uuid;primaryKey"`
-	UserID         uuid.UUID `gorm:"type:uuid;not null;unique"`
+	UserID         uuid.UUID `gorm:"type:uuid;not null"`
 	FirstName      string    `gorm:"type:varchar(255)"`
 	LastName       string    `gorm:"type:varchar(255)"`
 	PhoneNumber    string    `gorm:"type:varchar(20)"`

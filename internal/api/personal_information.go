@@ -18,7 +18,7 @@ func PersonalInformation(app *fiber.Group, personalInformationService domain.Per
 		personalInformationService: personalInformationService,
 	}
 	app.Get("personal_information/:id", authMid, handler.FindByID)
-	app.Put("personal_information/:personalInfoID", authMid, handler.Update)
+	app.Put("personal_information/:PersonalInfoID", authMid, handler.Update)
 	app.Post("personal_information", authMid, handler.Insert)
 }
 
@@ -78,13 +78,14 @@ func (a personalInformationhApi) Insert(ctx *fiber.Ctx) error {
 // @Produce json
 // @Security BearerAuth  // Menunjukkan endpoint membutuhkan otentikasi Bearer token
 // @Param Authorization header string true "Bearer JWT Token"  // Menambahkan parameter header untuk token otentikasi
-// @Param personalInfoID path string true "Personal Information ID"
+// @Param PersonalInfoID path string true "Personal Information ID"
 // @Param body body dto.UpdatePersonalInformationReq true "Body Request" // Mendefinisikan parameter yang dikirimkan dalam request body
 // @Success 200 {object} dto.BaseResp "Personal Information Details"
 // @Failure 400 {object} dto.ErrorSchema "Bad Request"
-// @Router /api/personal_information/:personalInfoID [put]
+// @Router /api/personal_information/{PersonalInfoID} [put]
 func (a personalInformationhApi) Update(ctx *fiber.Ctx) error {
-	id := ctx.Params("personalInfoID")
+	id := ctx.Params("PersonalInfoID")
+	// fmt.Printf("personalInfoID " + ctx.Params("id"))
 	var req dto.UpdatePersonalInformationReq
 	if err := ctx.BodyParser(&req); err != nil {
 		return ctx.Status(200).JSON(util.ErrorResponse("400", "Permintaan Tidak Valid", "Bad Request"))

@@ -46,6 +46,21 @@ definitions:
       user_id:
         type: string
     type: object
+  dto.InsertWorkExperienceReq:
+    properties:
+      company_name:
+        type: string
+      end_date:
+        type: string
+      job_description:
+        type: string
+      job_title:
+        type: string
+      start_date:
+        type: string
+      user_id:
+        type: string
+    type: object
   dto.PersonalInformationResp:
     properties:
       address:
@@ -232,7 +247,7 @@ paths:
       summary: Insert Personal Information
       tags:
       - personal-information
-  /api/personal_information/:personalInfoID:
+  /api/personal_information/{PersonalInfoID}:
     put:
       consumes:
       - application/json
@@ -245,7 +260,7 @@ paths:
         type: string
       - description: Personal Information ID
         in: path
-        name: personalInfoID
+        name: PersonalInfoID
         required: true
         type: string
       - description: Body Request
@@ -315,4 +330,41 @@ paths:
       summary: Get Personal Information
       tags:
       - personal-information
+  /api/work_experience:
+    post:
+      consumes:
+      - application/json
+      description: Create Work Experience
+      parameters:
+      - description: Bearer JWT Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Body Request
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.InsertWorkExperienceReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Personal Information Details
+          schema:
+            $ref: '#/definitions/dto.BaseResp'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorSchema'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/dto.ErrorSchema'
+      security:
+      - BearerAuth  // Menunjukkan endpoint membutuhkan otentikasi Bearer token: []
+      summary: Insert Work Experience
+      tags:
+      - work-experience
 swagger: "2.0"

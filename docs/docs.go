@@ -232,7 +232,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/personal_information/:personalInfoID": {
+        "/api/personal_information/{PersonalInfoID}": {
             "put": {
                 "security": [
                     {
@@ -261,7 +261,7 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "description": "Personal Information ID",
-                        "name": "personalInfoID",
+                        "name": "PersonalInfoID",
                         "in": "path",
                         "required": true
                     },
@@ -364,6 +364,64 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/api/work_experience": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth  // Menunjukkan endpoint membutuhkan otentikasi Bearer token": []
+                    }
+                ],
+                "description": "Create Work Experience",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "work-experience"
+                ],
+                "summary": "Insert Work Experience",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer JWT Token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "Body Request",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.InsertWorkExperienceReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Personal Information Details",
+                        "schema": {
+                            "$ref": "#/definitions/dto.BaseResp"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorSchema"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorSchema"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -433,6 +491,29 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "summary": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.InsertWorkExperienceReq": {
+            "type": "object",
+            "properties": {
+                "company_name": {
+                    "type": "string"
+                },
+                "end_date": {
+                    "type": "string"
+                },
+                "job_description": {
+                    "type": "string"
+                },
+                "job_title": {
+                    "type": "string"
+                },
+                "start_date": {
                     "type": "string"
                 },
                 "user_id": {
