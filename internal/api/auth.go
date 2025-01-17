@@ -31,7 +31,7 @@ func Auth(app *fiber.Group, userService domain.UserService, authMid fiber.Handle
 // @Accept json
 // @Produce json
 // @Param body body dto.AuthReq true "Login Credentials" // Mendefinisikan parameter yang dikirimkan dalam request body
-// @Success 200 {object} dto.BaseResp{outputSchema=string} "JWT Token"
+// @Success 200 {object} dto.BaseResp{output_schema=dto.AuthResp} "JWT Token"
 // @Failure 400 {object} dto.ErrorSchema "Invalid Request"
 // @Failure 401 {object} dto.ErrorSchema "Authentication Failed"
 // @Router /api/auth/login [post]
@@ -65,7 +65,7 @@ func (a authApi) GenerateToken(ctx *fiber.Ctx) error {
 // @Produce json
 // @Security BearerAuth
 // @Param Authorization header string true "Bearer JWT Token" // Menambahkan parameter Authorization di header
-// @Success 200 {object} dto.BaseResp{outputSchema=string} "New JWT Token"
+// @Success 200 {object} dto.BaseResp{output_schema=dto.AuthResp} "New JWT Token"
 // @Failure 401 {object} dto.ErrorSchema "Authentication Failed"
 // @Router /api/auth/refresh [get]
 func (a authApi) ValidateToken(ctx *fiber.Ctx) error {

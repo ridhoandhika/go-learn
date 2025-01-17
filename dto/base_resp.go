@@ -13,5 +13,5 @@ type ErrorSchema struct {
 
 type BaseResp struct {
 	ErrorSchema  ErrorSchema `json:"error_schema"`
-	OutputSchema interface{} `json:"output_schema,omitempty"` // OutputSchema fleksibel (bisa berisi apa saja)
+	OutputSchema any         `json:"output_schema,omitempty"` // OutputSchema fleksibel (bisa berisi apa saja)
 }

@@ -50,8 +50,8 @@ const docTemplate = `{
                                 {
                                     "type": "object",
                                     "properties": {
-                                        "outputSchema": {
-                                            "type": "string"
+                                        "output_schema": {
+                                            "$ref": "#/definitions/dto.AuthResp"
                                         }
                                     }
                                 }
@@ -111,8 +111,8 @@ const docTemplate = `{
                                 {
                                     "type": "object",
                                     "properties": {
-                                        "outputSchema": {
-                                            "type": "string"
+                                        "output_schema": {
+                                            "$ref": "#/definitions/dto.AuthResp"
                                         }
                                     }
                                 }
@@ -432,6 +432,14 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.AuthResp": {
+            "type": "object",
+            "properties": {
+                "access_token": {
                     "type": "string"
                 }
             }

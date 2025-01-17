@@ -6,6 +6,11 @@ definitions:
       username:
         type: string
     type: object
+  dto.AuthResp:
+    properties:
+      access_token:
+        type: string
+    type: object
   dto.BaseResp:
     properties:
       error_schema:
@@ -134,8 +139,8 @@ paths:
             allOf:
             - $ref: '#/definitions/dto.BaseResp'
             - properties:
-                outputSchema:
-                  type: string
+                output_schema:
+                  $ref: '#/definitions/dto.AuthResp'
               type: object
         "400":
           description: Invalid Request
@@ -168,8 +173,8 @@ paths:
             allOf:
             - $ref: '#/definitions/dto.BaseResp'
             - properties:
-                outputSchema:
-                  type: string
+                output_schema:
+                  $ref: '#/definitions/dto.AuthResp'
               type: object
         "401":
           description: Authentication Failed
