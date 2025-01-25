@@ -23,14 +23,18 @@ func main() {
 	// cacheConnection := component.GetCacheConnection()
 
 	userRepository := repository.User(dbConnection)
-	personalInfoRepository := repository.PersonalInformation((dbConnection))
-	workExperienceRepository := repository.WorkExperience((dbConnection))
-	educationRepository := repository.Education((dbConnection))
+	personalInfoRepository := repository.PersonalInformation(dbConnection)
+	workExperienceRepository := repository.WorkExperience(dbConnection)
+	educationRepository := repository.Education(dbConnection)
+	skillRepository := repository.Skill(dbConnection)
+	certificationRepository := repository.Certification(dbConnection)
 
 	userService := service.User(userRepository)
 	personalInfoService := service.PersonalInformation(personalInfoRepository)
 	workExperienceService := service.WorkExperience(workExperienceRepository)
 	educationService := service.Education(educationRepository)
+	skillService := service.Skill(skillRepository)
+	certificationService := service.Certification(certificationRepository)
 
 	authMiddleware := middleware.Authenticate(userService)
 
@@ -66,6 +70,8 @@ func main() {
 	api.PersonalInformation(apiRoutes.(*fiber.Group), personalInfoService, authMiddleware)
 	api.WorkExperience(apiRoutes.(*fiber.Group), workExperienceService, authMiddleware)
 	api.Education(apiRoutes.(*fiber.Group), educationService, authMiddleware)
+	api.Skill(apiRoutes.(*fiber.Group), skillService, authMiddleware)
+	api.Certification(apiRoutes.(*fiber.Group), certificationService, authMiddleware)
 
 	app.Listen(cnf.Server.Host + ":" + cnf.Server.Port)
 }

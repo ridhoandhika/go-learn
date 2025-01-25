@@ -74,7 +74,7 @@ func (a educationApi) Insert(ctx *fiber.Ctx) error {
 // @Produce json
 // @Param id path string true "Education ID"
 // @Param body body dto.UpdateEducationReq true "Body Request"
-// @Success 200 {object} dto.BaseResp "Work Experience resp"
+// @Success 200 {object} dto.BaseResp "Education resp"
 // @Failure 400 {object} dto.ErrorSchema "Bad Request"
 // @Router /api/education/{id} [put]
 func (a educationApi) Update(ctx *fiber.Ctx) error {

@@ -18,6 +18,28 @@ definitions:
       output_schema:
         description: OutputSchema fleksibel (bisa berisi apa saja)
     type: object
+  dto.Certification:
+    properties:
+      body:
+        type: string
+      certification_id:
+        type: string
+      credential_id:
+        type: string
+      expiration_date:
+        type: string
+      issue_date:
+        type: string
+      name:
+        type: string
+    type: object
+  dto.CertificationResp:
+    properties:
+      certifications:
+        items:
+          $ref: '#/definitions/dto.Certification'
+        type: array
+    type: object
   dto.Education:
     properties:
       degree:
@@ -56,6 +78,21 @@ definitions:
       error_message:
         $ref: '#/definitions/dto.ErrorMessage'
     type: object
+  dto.InsertCertificationReq:
+    properties:
+      body:
+        type: string
+      credential_id:
+        type: string
+      expiration_date:
+        type: string
+      issue_date:
+        type: string
+      name:
+        type: string
+      user_id:
+        type: string
+    type: object
   dto.InsertEducationReq:
     properties:
       degree:
@@ -90,6 +127,17 @@ definitions:
       phone_number:
         type: string
       summary:
+        type: string
+      user_id:
+        type: string
+    type: object
+  dto.InsertSkillReq:
+    properties:
+      level:
+        type: string
+      name:
+        type: string
+      skill_id:
         type: string
       user_id:
         type: string
@@ -130,6 +178,35 @@ definitions:
       user_id:
         type: string
     type: object
+  dto.Skill:
+    properties:
+      level:
+        type: string
+      name:
+        type: string
+      skill_id:
+        type: string
+    type: object
+  dto.SkillsResp:
+    properties:
+      skills:
+        items:
+          $ref: '#/definitions/dto.Skill'
+        type: array
+    type: object
+  dto.UpdateCertificationReq:
+    properties:
+      body:
+        type: string
+      credential_id:
+        type: string
+      expiration_date:
+        type: string
+      issue_date:
+        type: string
+      name:
+        type: string
+    type: object
   dto.UpdateEducationReq:
     properties:
       degree:
@@ -160,6 +237,13 @@ definitions:
       phone_number:
         type: string
       summary:
+        type: string
+    type: object
+  dto.UpdateSkillReq:
+    properties:
+      level:
+        type: string
+      name:
         type: string
     type: object
   dto.UpdateWorkExperienceReq:
@@ -297,6 +381,103 @@ paths:
       summary: Register a new user
       tags:
       - auth
+  /api/certification:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Body Request
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.InsertCertificationReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Certification Details
+          schema:
+            $ref: '#/definitions/dto.BaseResp'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorSchema'
+      security:
+      - BearerAuth: []
+      summary: Insert Certification
+      tags:
+      - certification
+  /api/certification/{id}:
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Certification ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Body Request
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateCertificationReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Certification resp
+          schema:
+            $ref: '#/definitions/dto.BaseResp'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorSchema'
+      security:
+      - BearerAuth: []
+      summary: Update Certification
+      tags:
+      - certification
+  /api/certification/{userId}:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: User ID
+        in: path
+        name: userId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Certification details successfully retrieved
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.BaseResp'
+            - properties:
+                output_schema:
+                  allOf:
+                  - $ref: '#/definitions/dto.CertificationResp'
+                  - properties:
+                      certifications:
+                        items:
+                          $ref: '#/definitions/dto.Certification'
+                        type: array
+                    type: object
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorSchema'
+      security:
+      - BearerAuth: []
+      summary: Get Certification
+      tags:
+      - certification
   /api/education:
     post:
       consumes:
@@ -344,7 +525,7 @@ paths:
       - application/json
       responses:
         "200":
-          description: Work Experience resp
+          description: Education resp
           schema:
             $ref: '#/definitions/dto.BaseResp'
         "400":
@@ -495,6 +676,103 @@ paths:
       summary: Update Personal Information
       tags:
       - personal-information
+  /api/skill:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Body Request
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.InsertSkillReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Skill Details
+          schema:
+            $ref: '#/definitions/dto.BaseResp'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorSchema'
+      security:
+      - BearerAuth: []
+      summary: Insert Skill
+      tags:
+      - skill
+  /api/skill/{id}:
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Skill ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Body Request
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateSkillReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Skill resp
+          schema:
+            $ref: '#/definitions/dto.BaseResp'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorSchema'
+      security:
+      - BearerAuth: []
+      summary: Update Skill
+      tags:
+      - skill
+  /api/skill/{userId}:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: User ID
+        in: path
+        name: userId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Skill details successfully retrieved
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.BaseResp'
+            - properties:
+                output_schema:
+                  allOf:
+                  - $ref: '#/definitions/dto.SkillsResp'
+                  - properties:
+                      skills:
+                        items:
+                          $ref: '#/definitions/dto.Skill'
+                        type: array
+                    type: object
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorSchema'
+      security:
+      - BearerAuth: []
+      summary: Get Skill
+      tags:
+      - skill
   /api/work-experience:
     post:
       consumes:

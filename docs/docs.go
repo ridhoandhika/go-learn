@@ -162,6 +162,170 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/certification": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "certification"
+                ],
+                "summary": "Insert Certification",
+                "parameters": [
+                    {
+                        "description": "Body Request",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.InsertCertificationReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Certification Details",
+                        "schema": {
+                            "$ref": "#/definitions/dto.BaseResp"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorSchema"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/certification/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "certification"
+                ],
+                "summary": "Update Certification",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Certification ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Body Request",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.UpdateCertificationReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Certification resp",
+                        "schema": {
+                            "$ref": "#/definitions/dto.BaseResp"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorSchema"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/certification/{userId}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "certification"
+                ],
+                "summary": "Get Certification",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "userId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Certification details successfully retrieved",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/dto.BaseResp"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "output_schema": {
+                                            "allOf": [
+                                                {
+                                                    "$ref": "#/definitions/dto.CertificationResp"
+                                                },
+                                                {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "certifications": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "$ref": "#/definitions/dto.Certification"
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorSchema"
+                        }
+                    }
+                }
+            }
+        },
         "/api/education": {
             "post": {
                 "security": [
@@ -243,7 +407,7 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "Work Experience resp",
+                        "description": "Education resp",
                         "schema": {
                             "$ref": "#/definitions/dto.BaseResp"
                         }
@@ -491,6 +655,170 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/skill": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "skill"
+                ],
+                "summary": "Insert Skill",
+                "parameters": [
+                    {
+                        "description": "Body Request",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.InsertSkillReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Skill Details",
+                        "schema": {
+                            "$ref": "#/definitions/dto.BaseResp"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorSchema"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/skill/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "skill"
+                ],
+                "summary": "Update Skill",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Skill ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Body Request",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.UpdateSkillReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Skill resp",
+                        "schema": {
+                            "$ref": "#/definitions/dto.BaseResp"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorSchema"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/skill/{userId}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "skill"
+                ],
+                "summary": "Get Skill",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "userId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Skill details successfully retrieved",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/dto.BaseResp"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "output_schema": {
+                                            "allOf": [
+                                                {
+                                                    "$ref": "#/definitions/dto.SkillsResp"
+                                                },
+                                                {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "skills": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "$ref": "#/definitions/dto.Skill"
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorSchema"
+                        }
+                    }
+                }
+            }
+        },
         "/api/work-experience": {
             "post": {
                 "security": [
@@ -699,6 +1027,40 @@ const docTemplate = `{
                 }
             }
         },
+        "dto.Certification": {
+            "type": "object",
+            "properties": {
+                "body": {
+                    "type": "string"
+                },
+                "certification_id": {
+                    "type": "string"
+                },
+                "credential_id": {
+                    "type": "string"
+                },
+                "expiration_date": {
+                    "type": "string"
+                },
+                "issue_date": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.CertificationResp": {
+            "type": "object",
+            "properties": {
+                "certifications": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.Certification"
+                    }
+                }
+            }
+        },
         "dto.Education": {
             "type": "object",
             "properties": {
@@ -758,6 +1120,29 @@ const docTemplate = `{
                 }
             }
         },
+        "dto.InsertCertificationReq": {
+            "type": "object",
+            "properties": {
+                "body": {
+                    "type": "string"
+                },
+                "credential_id": {
+                    "type": "string"
+                },
+                "expiration_date": {
+                    "type": "string"
+                },
+                "issue_date": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            }
+        },
         "dto.InsertEducationReq": {
             "type": "object",
             "properties": {
@@ -809,6 +1194,23 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "summary": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.InsertSkillReq": {
+            "type": "object",
+            "properties": {
+                "level": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "skill_id": {
                     "type": "string"
                 },
                 "user_id": {
@@ -871,6 +1273,51 @@ const docTemplate = `{
                 }
             }
         },
+        "dto.Skill": {
+            "type": "object",
+            "properties": {
+                "level": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "skill_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.SkillsResp": {
+            "type": "object",
+            "properties": {
+                "skills": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.Skill"
+                    }
+                }
+            }
+        },
+        "dto.UpdateCertificationReq": {
+            "type": "object",
+            "properties": {
+                "body": {
+                    "type": "string"
+                },
+                "credential_id": {
+                    "type": "string"
+                },
+                "expiration_date": {
+                    "type": "string"
+                },
+                "issue_date": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
         "dto.UpdateEducationReq": {
             "type": "object",
             "properties": {
@@ -916,6 +1363,17 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "summary": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.UpdateSkillReq": {
+            "type": "object",
+            "properties": {
+                "level": {
+                    "type": "string"
+                },
+                "name": {
                     "type": "string"
                 }
             }

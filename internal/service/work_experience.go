@@ -35,8 +35,19 @@ func (p workExperienceService) FindByUserId(ctx context.Context, userId string) 
 	}
 
 	data, err := p.workExperienceRepository.FindByUserId(ctx, parsedUserID)
-	if err != nil {
-		return util.ErrorResponse("404", "Pengguna tidak ditemukan", "User not found"), nil
+	if err != nil || len(data) == 0 {
+		return dto.BaseResp{
+			ErrorSchema: dto.ErrorSchema{
+				ErrorCode: "200",
+				ErrorMessage: dto.ErrorMessage{
+					Id: "Sukses",
+					En: "Success",
+				},
+			},
+			OutputSchema: dto.WorkExperiencesResp{
+				WorkExperience: []dto.WorkExperience{},
+			},
+		}, nil
 	}
 
 	var response dto.WorkExperiencesResp

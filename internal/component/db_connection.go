@@ -37,8 +37,9 @@ func GetDatabaseConnection(cnf *config.Config) *gorm.DB {
 		log.Fatalf("error open connection %v", err.Error())
 	}
 	db.Exec("CREATE SCHEMA IF NOT EXISTS custom_schema")
+	db.Exec("CREATE TYPE level AS ENUM ('Beginner', 'Intermediate', 'Advanced');")
 	// Melakukan migrasi ke database (membuat tabel user jika belum ada)
-	err = db.Debug().AutoMigrate(&domain.User{}, &domain.PersonalInformation{}, &domain.WorkExperience{}, &domain.Education{})
+	err = db.Debug().AutoMigrate(&domain.User{}, &domain.PersonalInformation{}, &domain.WorkExperience{}, &domain.Education{}, &domain.Skill{}, &domain.Certification{})
 	if err != nil {
 		log.Fatalf("Gagal melakukan migrasi: %v", err)
 	}
