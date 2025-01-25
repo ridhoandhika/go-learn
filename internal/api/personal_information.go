@@ -17,9 +17,9 @@ func PersonalInformation(app *fiber.Group, personalInformationService domain.Per
 	handler := personalInformationhApi{
 		personalInformationService: personalInformationService,
 	}
-	app.Get("personal_information/:id", authMid, handler.FindByID)
-	app.Put("personal_information/:PersonalInfoID", authMid, handler.Update)
-	app.Post("personal_information", authMid, handler.Insert)
+	app.Get("personal-information/:id", authMid, handler.FindByID)
+	app.Put("personal-information/:id", authMid, handler.Update)
+	app.Post("personal-information", authMid, handler.Insert)
 }
 
 // @Summary Get Personal Information
@@ -34,7 +34,7 @@ func PersonalInformation(app *fiber.Group, personalInformationService domain.Per
 // @Failure 400 {object} dto.ErrorSchema "Invalid Request"
 // @Failure 401 {object} dto.ErrorSchema "Authentication Failed"
 // @Failure 404 {object} dto.ErrorSchema "User Not Found"
-// @Router /api/personal_information/{id} [get]
+// @Router /api/personal-information/{id} [get]
 func (a personalInformationhApi) FindByID(ctx *fiber.Ctx) error {
 	id := ctx.Params("id")
 	data, err := a.personalInformationService.FindByIDPeronalInfo(ctx.Context(), id)
@@ -56,7 +56,7 @@ func (a personalInformationhApi) FindByID(ctx *fiber.Ctx) error {
 // @Success 200 {object} dto.BaseResp "Personal Information Details"
 // @Failure 409 {object} dto.ErrorSchema "Conflict"
 // @Failure 400 {object} dto.ErrorSchema "Bad Request"
-// @Router /api/personal_information [post]
+// @Router /api/personal-information [post]
 func (a personalInformationhApi) Insert(ctx *fiber.Ctx) error {
 	var req dto.InsertPersonalInformationReq
 	if err := ctx.BodyParser(&req); err != nil {
@@ -78,13 +78,13 @@ func (a personalInformationhApi) Insert(ctx *fiber.Ctx) error {
 // @Produce json
 // @Security BearerAuth  // Menunjukkan endpoint membutuhkan otentikasi Bearer token
 // @Param Authorization header string true "Bearer JWT Token"  // Menambahkan parameter header untuk token otentikasi
-// @Param PersonalInfoID path string true "Personal Information ID"
+// @Param id path string true "Personal Information ID"
 // @Param body body dto.UpdatePersonalInformationReq true "Body Request" // Mendefinisikan parameter yang dikirimkan dalam request body
 // @Success 200 {object} dto.BaseResp "Personal Information Details"
 // @Failure 400 {object} dto.ErrorSchema "Bad Request"
-// @Router /api/personal_information/{PersonalInfoID} [put]
+// @Router /api/personal-information/{id} [put]
 func (a personalInformationhApi) Update(ctx *fiber.Ctx) error {
-	id := ctx.Params("PersonalInfoID")
+	id := ctx.Params("id")
 	// fmt.Printf("personalInfoID " + ctx.Params("id"))
 	var req dto.UpdatePersonalInformationReq
 	if err := ctx.BodyParser(&req); err != nil {

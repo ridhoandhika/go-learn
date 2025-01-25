@@ -21,6 +21,9 @@ func PersonalInformation(personalInformationRepository domain.PersonalInformatio
 
 func (u personalInformationService) FindByIDPeronalInfo(ctx context.Context, id string) (dto.BaseResp, error) {
 	parsedID, err := uuid.Parse(id)
+	if err != nil {
+		return util.ErrorResponse("400", "Permintaan tidak valid", "Bad Request"), nil
+	}
 	data, err := u.personaleInformationRepository.FindByID(ctx, parsedID)
 	//  u.personalInformationRepository.FindByID(ctx, id)
 	if err != nil {
@@ -58,7 +61,7 @@ func (p personalInformationService) Insert(ctx context.Context, req dto.InsertPe
 
 	_, err = p.personaleInformationRepository.Insert(ctx, req)
 	if err != nil {
-		return util.ErrorResponse("400", "Permintaan Tidak Valid", "Bad Request"), err
+		return util.ErrorResponse("400", "Permintaan Tidak Valid", "Bad Request"), nil
 	}
 	// return response
 	return util.ErrorResponse("200", "Sukses", "Success"), nil
