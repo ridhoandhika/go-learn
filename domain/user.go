@@ -19,6 +19,8 @@ type User struct {
 	PersonalInfo   PersonalInformation `gorm:"foreignKey:UserID;constraint:OnDelete:CASCADE"`
 	WorkExperience []WorkExperience    `gorm:"foreignKey:UserID;constraint:OnDelete:CASCADE"`
 	Education      []Education         `gorm:"foreignKey:UserID;constraint:OnDelete:CASCADE"`
+	Skill          []Skill             `gorm:"foreignKey:UserID;constraint:OnDelete:CASCADE"`
+	Certification  []Certification     `gorm:"foreignKey:UserID;constraint:OnDelete:CASCADE"`
 	CreatedAt      time.Time           // Kolom CreatedAt
 	UpdatedAt      time.Time           // Kolom UpdatedAt
 }

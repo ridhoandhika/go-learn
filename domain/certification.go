@@ -6,9 +6,11 @@ import (
 	"time"
 
 	"github.com/google/uuid"
+	"gorm.io/gorm"
 )
 
 type Certification struct {
+	gorm.Model
 	CertificationID uuid.UUID `gorm:"type:uuid;primaryKey"`
 	UserID          uuid.UUID `gorm:"type:uuid;not null"`
 	Name            string    `gorm:"type:varchar(255)"`

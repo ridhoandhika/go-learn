@@ -6,9 +6,11 @@ import (
 	"time"
 
 	"github.com/google/uuid"
+	"gorm.io/gorm"
 )
 
 type Education struct {
+	gorm.Model
 	EducationID  uuid.UUID `gorm:"type:uuid;primaryKey"`
 	UserID       uuid.UUID `gorm:"type:uuid;not null"`
 	Degree       string    `gorm:"type:varchar(255)"`
