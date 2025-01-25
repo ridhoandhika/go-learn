@@ -10,6 +10,8 @@ import (
 
 	"github.com/gofiber/contrib/swagger"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
+	"github.com/gofiber/fiber/v2/middleware/logger"
 )
 
 // @securityDefinitions.apikey BearerAuth
@@ -33,6 +35,19 @@ func main() {
 	authMiddleware := middleware.Authenticate(userService)
 
 	app := fiber.New()
+
+	app.Use(cors.New(cors.Config{
+		AllowOrigins: "http://localhost:3000, http://localhost:8081, http://localhost:8080", // Membolehkan domain tertentu
+		AllowMethods: "GET,POST,PUT,DELETE",                                                 // Metode HTTP yang diizinkan
+		AllowHeaders: "Origin, Content-Type, Accept, Authorization",                         // Header yang diizinkan
+	}))
+
+	app.Use(logger.New(logger.Config{
+		Format:     "${time} ${method} ${url} ${status} - ${latency} ${bytesSent}\n",
+		TimeFormat: "02-Jan-2006 15:04:05",
+		TimeZone:   "Asia/Jakarta",
+	}))
+
 	// Tentukan konfigurasi Swagger
 	cfg := swagger.Config{
 		BasePath: "/",
