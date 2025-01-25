@@ -21,14 +21,12 @@ func WorkExperience(app *fiber.Group, workExperienceService domain.WorkExperienc
 	app.Post("work-experience", authMid, handler.Insert)
 }
 
+// @Security BearerAuth
 // @Summary Insert Work Experience
-// @Description Create Work Experience
 // @Tags work-experience
 // @Accept json
 // @Produce json
-// @Security BearerAuth  // Menunjukkan endpoint membutuhkan otentikasi Bearer token
-// @Param Authorization header string true "Bearer JWT Token"  // Menambahkan parameter header untuk token otentikasi
-// @Param body body dto.InsertWorkExperienceReq true "Body Request" // Mendefinisikan parameter yang dikirimkan dalam request body
+// @Param body body dto.InsertWorkExperienceReq true "Body Request"
 // @Success 200 {object} dto.BaseResp "Personal Information Details"
 // @Failure 409 {object} dto.ErrorSchema "Conflict"
 // @Failure 400 {object} dto.ErrorSchema "Bad Request"
@@ -48,13 +46,11 @@ func (a workExperienceApi) Insert(ctx *fiber.Ctx) error {
 	return ctx.Status(200).JSON(data)
 }
 
+// @Security BearerAuth
 // @Summary Get Work Experience
-// @Description Get Work Experience by User Id
 // @Tags work-experience
 // @Accept json
 // @Produce json
-// @Security BearerAuth  // Menunjukkan endpoint membutuhkan otentikasi Bearer token
-// @Param Authorization header string true "Bearer JWT Token"  // Menambahkan parameter header untuk token otentikasi
 // @Param userId path string true "User ID"
 // @Success 200 {object} dto.BaseResp{output_schema=dto.WorkExperiencesResp{work_experience=[]dto.WorkExperience{}}} "Working Experiences"
 // @Failure 409 {object} dto.ErrorSchema "Conflict"
@@ -70,15 +66,13 @@ func (a workExperienceApi) FindByUserId(ctx *fiber.Ctx) error {
 	return ctx.Status(200).JSON(data)
 }
 
+// @Security BearerAuth
 // @Summary Update Work Experience
-// @Description Retrieve detailed work experience by ID
 // @Tags work-experience
 // @Accept json
 // @Produce json
-// @Security BearerAuth  // Menunjukkan endpoint membutuhkan otentikasi Bearer token
-// @Param Authorization header string true "Bearer JWT Token"  // Menambahkan parameter header untuk token otentikasi
 // @Param id path string true "Work Experience ID"
-// @Param body body dto.UpdateWorkExperienceReq true "Body Request" // Mendefinisikan parameter yang dikirimkan dalam request body
+// @Param body body dto.UpdateWorkExperienceReq true "Body Request"
 // @Success 200 {object} dto.BaseResp "Work Experience resp"
 // @Failure 400 {object} dto.ErrorSchema "Bad Request"
 // @Router /api/work-experience/{id} [put]

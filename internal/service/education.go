@@ -26,9 +26,9 @@ func (p educationService) FindByUserId(ctx context.Context, userId string) (dto.
 		return util.ErrorResponse("400", "Invalid UUID format", "Invalid UUID format"), nil
 	}
 
-	data, _ := p.educationRepository.FindByUserId(ctx, parsedUserID)
+	data, err := p.educationRepository.FindByUserId(ctx, parsedUserID)
 
-	if data == nil {
+	if err != nil || len(data) == 0 {
 		return dto.BaseResp{
 			ErrorSchema: dto.ErrorSchema{
 				ErrorCode: "200",
@@ -43,10 +43,9 @@ func (p educationService) FindByUserId(ctx context.Context, userId string) (dto.
 		}, nil
 	}
 
-	// Inisialisasi slice untuk response
 	var response dto.EducationResp
 	var educationList []dto.Education
-	// Convert data WorkExperience ke WorkExperiencesResp
+	// Convert data ke Education
 	for _, education := range data {
 		// Tambahkan objek Education ke dalam educationList
 		educationList = append(educationList, dto.Education{
@@ -64,7 +63,6 @@ func (p educationService) FindByUserId(ctx context.Context, userId string) (dto.
 		Education: educationList,
 	}
 
-	// Return response dengan status sukses
 	return dto.BaseResp{
 		ErrorSchema: dto.ErrorSchema{
 			ErrorCode: "200",
@@ -82,14 +80,13 @@ func (p educationService) Insert(ctx context.Context, req dto.InsertEducationReq
 	if err != nil {
 		return util.ErrorResponse("400", "Permintaan Tidak Valid", "Bad Request"), err
 	}
-	// return response
+
 	return util.ErrorResponse("200", "Sukses", "Success"), nil
 }
 
 func (w educationService) Update(ctx context.Context, educationId string, req dto.UpdateEducationReq) (dto.BaseResp, error) {
 	parsedEducationId, err := uuid.Parse(educationId)
 	if err != nil {
-		// Jika sudah ada, return error bahwa data sudah ada
 		return util.ErrorResponse("400", "Permintaan tidak valid", "Bad request"), nil
 	}
 
@@ -98,6 +95,5 @@ func (w educationService) Update(ctx context.Context, educationId string, req dt
 		return util.ErrorResponse("400", "Gagal", "Failed"), nil
 	}
 
-	// return response
 	return util.ErrorResponse("200", "Sukses", "Success"), nil
 }

@@ -22,13 +22,11 @@ func PersonalInformation(app *fiber.Group, personalInformationService domain.Per
 	app.Post("personal-information", authMid, handler.Insert)
 }
 
+// @Security BearerAuth
 // @Summary Get Personal Information
-// @Description Retrieve detailed personal information by ID
 // @Tags personal-information
 // @Accept json
 // @Produce json
-// @Security BearerAuth  // Menunjukkan endpoint membutuhkan otentikasi Bearer token
-// @Param Authorization header string true "Bearer JWT Token"  // Menambahkan parameter header untuk token otentikasi
 // @Param id path string true "Personal Information ID"
 // @Success 200 {object} dto.BaseResp{output_schema=dto.PersonalInformationResp} "Personal Information Details"
 // @Failure 400 {object} dto.ErrorSchema "Invalid Request"
@@ -45,14 +43,12 @@ func (a personalInformationhApi) FindByID(ctx *fiber.Ctx) error {
 	return ctx.Status(200).JSON(data)
 }
 
+// @Security BearerAuth
 // @Summary Insert Personal Information
-// @Description Retrieve detailed personal information by ID
 // @Tags personal-information
 // @Accept json
 // @Produce json
-// @Security BearerAuth  // Menunjukkan endpoint membutuhkan otentikasi Bearer token
-// @Param Authorization header string true "Bearer JWT Token"  // Menambahkan parameter header untuk token otentikasi
-// @Param body body dto.InsertPersonalInformationReq true "Body Request" // Mendefinisikan parameter yang dikirimkan dalam request body
+// @Param body body dto.InsertPersonalInformationReq true "Body Request"
 // @Success 200 {object} dto.BaseResp "Personal Information Details"
 // @Failure 409 {object} dto.ErrorSchema "Conflict"
 // @Failure 400 {object} dto.ErrorSchema "Bad Request"
@@ -71,15 +67,13 @@ func (a personalInformationhApi) Insert(ctx *fiber.Ctx) error {
 	return ctx.Status(200).JSON(data)
 }
 
+// @Security BearerAuth
 // @Summary Update Personal Information
-// @Description Retrieve detailed personal information by ID
 // @Tags personal-information
 // @Accept json
 // @Produce json
-// @Security BearerAuth  // Menunjukkan endpoint membutuhkan otentikasi Bearer token
-// @Param Authorization header string true "Bearer JWT Token"  // Menambahkan parameter header untuk token otentikasi
 // @Param id path string true "Personal Information ID"
-// @Param body body dto.UpdatePersonalInformationReq true "Body Request" // Mendefinisikan parameter yang dikirimkan dalam request body
+// @Param body body dto.UpdatePersonalInformationReq true "Body Request"
 // @Success 200 {object} dto.BaseResp "Personal Information Details"
 // @Failure 400 {object} dto.ErrorSchema "Bad Request"
 // @Router /api/personal-information/{id} [put]

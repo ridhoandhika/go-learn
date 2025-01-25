@@ -17,7 +17,6 @@ const docTemplate = `{
     "paths": {
         "/api/auth/login": {
             "post": {
-                "description": "Authenticate user and generate JWT token",
                 "consumes": [
                     "application/json"
                 ],
@@ -80,7 +79,6 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Refresh the JWT token for a logged-in user",
                 "consumes": [
                     "application/json"
                 ],
@@ -91,15 +89,6 @@ const docTemplate = `{
                     "auth"
                 ],
                 "summary": "Refresh JWT Token",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Bearer JWT Token",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "New JWT Token",
@@ -130,7 +119,6 @@ const docTemplate = `{
         },
         "/api/auth/register": {
             "post": {
-                "description": "Register a new user by providing user credentials",
                 "consumes": [
                     "application/json"
                 ],
@@ -178,10 +166,9 @@ const docTemplate = `{
             "post": {
                 "security": [
                     {
-                        "BearerAuth  // Menunjukkan endpoint membutuhkan otentikasi Bearer token": []
+                        "BearerAuth": []
                     }
                 ],
-                "description": "Create Education",
                 "consumes": [
                     "application/json"
                 ],
@@ -193,13 +180,6 @@ const docTemplate = `{
                 ],
                 "summary": "Insert Education",
                 "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Bearer JWT Token",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    },
                     {
                         "description": "Body Request",
                         "name": "body",
@@ -230,10 +210,9 @@ const docTemplate = `{
             "put": {
                 "security": [
                     {
-                        "BearerAuth  // Menunjukkan endpoint membutuhkan otentikasi Bearer token": []
+                        "BearerAuth": []
                     }
                 ],
-                "description": "Retrieve detailed education by ID",
                 "consumes": [
                     "application/json"
                 ],
@@ -245,13 +224,6 @@ const docTemplate = `{
                 ],
                 "summary": "Update Education",
                 "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Bearer JWT Token",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    },
                     {
                         "type": "string",
                         "description": "Education ID",
@@ -289,10 +261,9 @@ const docTemplate = `{
             "get": {
                 "security": [
                     {
-                        "BearerAuth  // Menunjukkan endpoint membutuhkan otentikasi Bearer token": []
+                        "BearerAuth": []
                     }
                 ],
-                "description": "Get Education by User Id",
                 "consumes": [
                     "application/json"
                 ],
@@ -304,13 +275,6 @@ const docTemplate = `{
                 ],
                 "summary": "Get Education",
                 "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Bearer JWT Token",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    },
                     {
                         "type": "string",
                         "description": "User ID",
@@ -366,10 +330,9 @@ const docTemplate = `{
             "post": {
                 "security": [
                     {
-                        "BearerAuth  // Menunjukkan endpoint membutuhkan otentikasi Bearer token": []
+                        "BearerAuth": []
                     }
                 ],
-                "description": "Retrieve detailed personal information by ID",
                 "consumes": [
                     "application/json"
                 ],
@@ -381,13 +344,6 @@ const docTemplate = `{
                 ],
                 "summary": "Insert Personal Information",
                 "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Bearer JWT Token",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    },
                     {
                         "description": "Body Request",
                         "name": "body",
@@ -424,10 +380,9 @@ const docTemplate = `{
             "get": {
                 "security": [
                     {
-                        "BearerAuth  // Menunjukkan endpoint membutuhkan otentikasi Bearer token": []
+                        "BearerAuth": []
                     }
                 ],
-                "description": "Retrieve detailed personal information by ID",
                 "consumes": [
                     "application/json"
                 ],
@@ -439,13 +394,6 @@ const docTemplate = `{
                 ],
                 "summary": "Get Personal Information",
                 "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Bearer JWT Token",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    },
                     {
                         "type": "string",
                         "description": "Personal Information ID",
@@ -496,10 +444,9 @@ const docTemplate = `{
             "put": {
                 "security": [
                     {
-                        "BearerAuth  // Menunjukkan endpoint membutuhkan otentikasi Bearer token": []
+                        "BearerAuth": []
                     }
                 ],
-                "description": "Retrieve detailed personal information by ID",
                 "consumes": [
                     "application/json"
                 ],
@@ -511,13 +458,6 @@ const docTemplate = `{
                 ],
                 "summary": "Update Personal Information",
                 "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Bearer JWT Token",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    },
                     {
                         "type": "string",
                         "description": "Personal Information ID",
@@ -555,10 +495,9 @@ const docTemplate = `{
             "post": {
                 "security": [
                     {
-                        "BearerAuth  // Menunjukkan endpoint membutuhkan otentikasi Bearer token": []
+                        "BearerAuth": []
                     }
                 ],
-                "description": "Create Work Experience",
                 "consumes": [
                     "application/json"
                 ],
@@ -570,13 +509,6 @@ const docTemplate = `{
                 ],
                 "summary": "Insert Work Experience",
                 "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Bearer JWT Token",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    },
                     {
                         "description": "Body Request",
                         "name": "body",
@@ -613,10 +545,9 @@ const docTemplate = `{
             "put": {
                 "security": [
                     {
-                        "BearerAuth  // Menunjukkan endpoint membutuhkan otentikasi Bearer token": []
+                        "BearerAuth": []
                     }
                 ],
-                "description": "Retrieve detailed work experience by ID",
                 "consumes": [
                     "application/json"
                 ],
@@ -628,13 +559,6 @@ const docTemplate = `{
                 ],
                 "summary": "Update Work Experience",
                 "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Bearer JWT Token",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    },
                     {
                         "type": "string",
                         "description": "Work Experience ID",
@@ -672,10 +596,9 @@ const docTemplate = `{
             "get": {
                 "security": [
                     {
-                        "BearerAuth  // Menunjukkan endpoint membutuhkan otentikasi Bearer token": []
+                        "BearerAuth": []
                     }
                 ],
-                "description": "Get Work Experience by User Id",
                 "consumes": [
                     "application/json"
                 ],
@@ -687,13 +610,6 @@ const docTemplate = `{
                 ],
                 "summary": "Get Work Experience",
                 "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Bearer JWT Token",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    },
                     {
                         "type": "string",
                         "description": "User ID",
@@ -1071,6 +987,13 @@ const docTemplate = `{
                     }
                 }
             }
+        }
+    },
+    "securityDefinitions": {
+        "BearerAuth": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
         }
     }
 }`

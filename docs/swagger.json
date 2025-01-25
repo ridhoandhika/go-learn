@@ -6,7 +6,6 @@
     "paths": {
         "/api/auth/login": {
             "post": {
-                "description": "Authenticate user and generate JWT token",
                 "consumes": [
                     "application/json"
                 ],
@@ -69,7 +68,6 @@
                         "BearerAuth": []
                     }
                 ],
-                "description": "Refresh the JWT token for a logged-in user",
                 "consumes": [
                     "application/json"
                 ],
@@ -80,15 +78,6 @@
                     "auth"
                 ],
                 "summary": "Refresh JWT Token",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Bearer JWT Token",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "New JWT Token",
@@ -119,7 +108,6 @@
         },
         "/api/auth/register": {
             "post": {
-                "description": "Register a new user by providing user credentials",
                 "consumes": [
                     "application/json"
                 ],
@@ -167,10 +155,9 @@
             "post": {
                 "security": [
                     {
-                        "BearerAuth  // Menunjukkan endpoint membutuhkan otentikasi Bearer token": []
+                        "BearerAuth": []
                     }
                 ],
-                "description": "Create Education",
                 "consumes": [
                     "application/json"
                 ],
@@ -182,13 +169,6 @@
                 ],
                 "summary": "Insert Education",
                 "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Bearer JWT Token",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    },
                     {
                         "description": "Body Request",
                         "name": "body",
@@ -219,10 +199,9 @@
             "put": {
                 "security": [
                     {
-                        "BearerAuth  // Menunjukkan endpoint membutuhkan otentikasi Bearer token": []
+                        "BearerAuth": []
                     }
                 ],
-                "description": "Retrieve detailed education by ID",
                 "consumes": [
                     "application/json"
                 ],
@@ -234,13 +213,6 @@
                 ],
                 "summary": "Update Education",
                 "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Bearer JWT Token",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    },
                     {
                         "type": "string",
                         "description": "Education ID",
@@ -278,10 +250,9 @@
             "get": {
                 "security": [
                     {
-                        "BearerAuth  // Menunjukkan endpoint membutuhkan otentikasi Bearer token": []
+                        "BearerAuth": []
                     }
                 ],
-                "description": "Get Education by User Id",
                 "consumes": [
                     "application/json"
                 ],
@@ -293,13 +264,6 @@
                 ],
                 "summary": "Get Education",
                 "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Bearer JWT Token",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    },
                     {
                         "type": "string",
                         "description": "User ID",
@@ -355,10 +319,9 @@
             "post": {
                 "security": [
                     {
-                        "BearerAuth  // Menunjukkan endpoint membutuhkan otentikasi Bearer token": []
+                        "BearerAuth": []
                     }
                 ],
-                "description": "Retrieve detailed personal information by ID",
                 "consumes": [
                     "application/json"
                 ],
@@ -370,13 +333,6 @@
                 ],
                 "summary": "Insert Personal Information",
                 "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Bearer JWT Token",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    },
                     {
                         "description": "Body Request",
                         "name": "body",
@@ -413,10 +369,9 @@
             "get": {
                 "security": [
                     {
-                        "BearerAuth  // Menunjukkan endpoint membutuhkan otentikasi Bearer token": []
+                        "BearerAuth": []
                     }
                 ],
-                "description": "Retrieve detailed personal information by ID",
                 "consumes": [
                     "application/json"
                 ],
@@ -428,13 +383,6 @@
                 ],
                 "summary": "Get Personal Information",
                 "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Bearer JWT Token",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    },
                     {
                         "type": "string",
                         "description": "Personal Information ID",
@@ -485,10 +433,9 @@
             "put": {
                 "security": [
                     {
-                        "BearerAuth  // Menunjukkan endpoint membutuhkan otentikasi Bearer token": []
+                        "BearerAuth": []
                     }
                 ],
-                "description": "Retrieve detailed personal information by ID",
                 "consumes": [
                     "application/json"
                 ],
@@ -500,13 +447,6 @@
                 ],
                 "summary": "Update Personal Information",
                 "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Bearer JWT Token",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    },
                     {
                         "type": "string",
                         "description": "Personal Information ID",
@@ -544,10 +484,9 @@
             "post": {
                 "security": [
                     {
-                        "BearerAuth  // Menunjukkan endpoint membutuhkan otentikasi Bearer token": []
+                        "BearerAuth": []
                     }
                 ],
-                "description": "Create Work Experience",
                 "consumes": [
                     "application/json"
                 ],
@@ -559,13 +498,6 @@
                 ],
                 "summary": "Insert Work Experience",
                 "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Bearer JWT Token",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    },
                     {
                         "description": "Body Request",
                         "name": "body",
@@ -602,10 +534,9 @@
             "put": {
                 "security": [
                     {
-                        "BearerAuth  // Menunjukkan endpoint membutuhkan otentikasi Bearer token": []
+                        "BearerAuth": []
                     }
                 ],
-                "description": "Retrieve detailed work experience by ID",
                 "consumes": [
                     "application/json"
                 ],
@@ -617,13 +548,6 @@
                 ],
                 "summary": "Update Work Experience",
                 "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Bearer JWT Token",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    },
                     {
                         "type": "string",
                         "description": "Work Experience ID",
@@ -661,10 +585,9 @@
             "get": {
                 "security": [
                     {
-                        "BearerAuth  // Menunjukkan endpoint membutuhkan otentikasi Bearer token": []
+                        "BearerAuth": []
                     }
                 ],
-                "description": "Get Work Experience by User Id",
                 "consumes": [
                     "application/json"
                 ],
@@ -676,13 +599,6 @@
                 ],
                 "summary": "Get Work Experience",
                 "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Bearer JWT Token",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    },
                     {
                         "type": "string",
                         "description": "User ID",
@@ -1060,6 +976,13 @@
                     }
                 }
             }
+        }
+    },
+    "securityDefinitions": {
+        "BearerAuth": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
         }
     }
 }

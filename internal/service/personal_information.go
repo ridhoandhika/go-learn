@@ -25,7 +25,6 @@ func (u personalInformationService) FindByIDPeronalInfo(ctx context.Context, id 
 		return util.ErrorResponse("400", "Permintaan tidak valid", "Bad Request"), nil
 	}
 	data, err := u.personaleInformationRepository.FindByID(ctx, parsedID)
-	//  u.personalInformationRepository.FindByID(ctx, id)
 	if err != nil {
 		return util.ErrorResponse("404", "User tidak ditemukan", "User not found"), nil
 	}
@@ -55,7 +54,6 @@ func (u personalInformationService) FindByIDPeronalInfo(ctx context.Context, id 
 func (p personalInformationService) Insert(ctx context.Context, req dto.InsertPersonalInformationReq) (dto.BaseResp, error) {
 	_, err := p.personaleInformationRepository.FindByUserID(ctx, req.UserID)
 	if err == nil {
-		// Jika sudah ada, return error bahwa data sudah ada
 		return util.ErrorResponse("409", "Konflik", "Conflict"), nil
 	}
 
@@ -63,17 +61,15 @@ func (p personalInformationService) Insert(ctx context.Context, req dto.InsertPe
 	if err != nil {
 		return util.ErrorResponse("400", "Permintaan Tidak Valid", "Bad Request"), nil
 	}
-	// return response
+
 	return util.ErrorResponse("200", "Sukses", "Success"), nil
 }
 
 func (p personalInformationService) Update(ctx context.Context, personalInfoID uuid.UUID, req dto.UpdatePersonalInformationReq) (dto.BaseResp, error) {
 	_, err := p.personaleInformationRepository.Update(ctx, personalInfoID, req)
 	if err != nil {
-		// Jika sudah ada, return error bahwa data sudah ada
 		return util.ErrorResponse("400", "Permintaan Tidak Valid", "Bad Request"), nil
 	}
 
-	// return response
 	return util.ErrorResponse("200", "Sukses", "Success"), nil
 }

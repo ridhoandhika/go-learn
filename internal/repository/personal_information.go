@@ -42,24 +42,20 @@ func (u personalInformationRepository) Insert(ctx context.Context, req dto.Inser
 		DateOfBirth:    req.DateOfBirth,
 	}
 
-	// Menyisipkan user baru ke dalam tabel
 	err := u.db.WithContext(ctx).Create(&personalInfo).Error
 	if err != nil {
 		return nil, err
 	}
 
-	// Kembalikan ID user yang baru saja dimasukkan
 	return nil, nil
 }
 func (u personalInformationRepository) Update(ctx context.Context, personalInfoID uuid.UUID, req dto.UpdatePersonalInformationReq) (bool, error) {
 	var personalInformation domain.PersonalInformation
 	err := u.db.WithContext(ctx).Where("personal_info_id = ?", personalInfoID).First(&personalInformation).Error
 	if err != nil {
-		// Jika data tidak ditemukan, kembalikan error
 		return false, err
 	}
 
-	// Update data PersonalInformation dengan nilai-nilai yang diberikan dalam request
 	err = u.db.WithContext(ctx).Model(&personalInformation).Updates(domain.PersonalInformation{
 		FirstName:   req.FirstName,
 		LastName:    req.LastName,
@@ -71,10 +67,8 @@ func (u personalInformationRepository) Update(ctx context.Context, personalInfoI
 	}).Error
 
 	if err != nil {
-		// Jika ada error saat update
 		return false, err
 	}
 
-	// Jika berhasil, kembalikan data yang sudah diperbarui
 	return true, nil
 }

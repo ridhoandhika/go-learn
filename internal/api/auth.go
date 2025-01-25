@@ -26,7 +26,6 @@ func Auth(app *fiber.Group, userService domain.UserService, authMid fiber.Handle
 }
 
 // @Summary Generate Token for Authentication
-// @Description Authenticate user and generate JWT token
 // @Tags auth
 // @Accept json
 // @Produce json
@@ -58,13 +57,11 @@ func (a authApi) GenerateToken(ctx *fiber.Ctx) error {
 	})
 }
 
+// @Security BearerAuth
 // @Summary Refresh JWT Token
-// @Description Refresh the JWT token for a logged-in user
 // @Tags auth
 // @Accept json
 // @Produce json
-// @Security BearerAuth
-// @Param Authorization header string true "Bearer JWT Token" // Menambahkan parameter Authorization di header
 // @Success 200 {object} dto.BaseResp{output_schema=dto.AuthResp} "New JWT Token"
 // @Failure 401 {object} dto.ErrorSchema "Authentication Failed"
 // @Router /api/auth/refresh [get]
@@ -97,7 +94,6 @@ func (a authApi) ValidateToken(ctx *fiber.Ctx) error {
 }
 
 // @Summary Register a new user
-// @Description Register a new user by providing user credentials
 // @Tags auth
 // @Accept json
 // @Produce json

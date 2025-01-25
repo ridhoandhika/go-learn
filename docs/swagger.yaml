@@ -213,7 +213,6 @@ paths:
     post:
       consumes:
       - application/json
-      description: Authenticate user and generate JWT token
       parameters:
       - description: Login Credentials
         in: body
@@ -248,13 +247,6 @@ paths:
     get:
       consumes:
       - application/json
-      description: Refresh the JWT token for a logged-in user
-      parameters:
-      - description: Bearer JWT Token
-        in: header
-        name: Authorization
-        required: true
-        type: string
       produces:
       - application/json
       responses:
@@ -280,7 +272,6 @@ paths:
     post:
       consumes:
       - application/json
-      description: Register a new user by providing user credentials
       parameters:
       - description: User Registration Request
         in: body
@@ -310,13 +301,7 @@ paths:
     post:
       consumes:
       - application/json
-      description: Create Education
       parameters:
-      - description: Bearer JWT Token
-        in: header
-        name: Authorization
-        required: true
-        type: string
       - description: Body Request
         in: body
         name: body
@@ -335,7 +320,7 @@ paths:
           schema:
             $ref: '#/definitions/dto.ErrorSchema'
       security:
-      - BearerAuth  // Menunjukkan endpoint membutuhkan otentikasi Bearer token: []
+      - BearerAuth: []
       summary: Insert Education
       tags:
       - education
@@ -343,13 +328,7 @@ paths:
     put:
       consumes:
       - application/json
-      description: Retrieve detailed education by ID
       parameters:
-      - description: Bearer JWT Token
-        in: header
-        name: Authorization
-        required: true
-        type: string
       - description: Education ID
         in: path
         name: id
@@ -373,7 +352,7 @@ paths:
           schema:
             $ref: '#/definitions/dto.ErrorSchema'
       security:
-      - BearerAuth  // Menunjukkan endpoint membutuhkan otentikasi Bearer token: []
+      - BearerAuth: []
       summary: Update Education
       tags:
       - education
@@ -381,13 +360,7 @@ paths:
     get:
       consumes:
       - application/json
-      description: Get Education by User Id
       parameters:
-      - description: Bearer JWT Token
-        in: header
-        name: Authorization
-        required: true
-        type: string
       - description: User ID
         in: path
         name: userId
@@ -417,7 +390,7 @@ paths:
           schema:
             $ref: '#/definitions/dto.ErrorSchema'
       security:
-      - BearerAuth  // Menunjukkan endpoint membutuhkan otentikasi Bearer token: []
+      - BearerAuth: []
       summary: Get Education
       tags:
       - education
@@ -425,13 +398,7 @@ paths:
     post:
       consumes:
       - application/json
-      description: Retrieve detailed personal information by ID
       parameters:
-      - description: Bearer JWT Token
-        in: header
-        name: Authorization
-        required: true
-        type: string
       - description: Body Request
         in: body
         name: body
@@ -454,7 +421,7 @@ paths:
           schema:
             $ref: '#/definitions/dto.ErrorSchema'
       security:
-      - BearerAuth  // Menunjukkan endpoint membutuhkan otentikasi Bearer token: []
+      - BearerAuth: []
       summary: Insert Personal Information
       tags:
       - personal-information
@@ -462,13 +429,7 @@ paths:
     get:
       consumes:
       - application/json
-      description: Retrieve detailed personal information by ID
       parameters:
-      - description: Bearer JWT Token
-        in: header
-        name: Authorization
-        required: true
-        type: string
       - description: Personal Information ID
         in: path
         name: id
@@ -499,20 +460,14 @@ paths:
           schema:
             $ref: '#/definitions/dto.ErrorSchema'
       security:
-      - BearerAuth  // Menunjukkan endpoint membutuhkan otentikasi Bearer token: []
+      - BearerAuth: []
       summary: Get Personal Information
       tags:
       - personal-information
     put:
       consumes:
       - application/json
-      description: Retrieve detailed personal information by ID
       parameters:
-      - description: Bearer JWT Token
-        in: header
-        name: Authorization
-        required: true
-        type: string
       - description: Personal Information ID
         in: path
         name: id
@@ -536,7 +491,7 @@ paths:
           schema:
             $ref: '#/definitions/dto.ErrorSchema'
       security:
-      - BearerAuth  // Menunjukkan endpoint membutuhkan otentikasi Bearer token: []
+      - BearerAuth: []
       summary: Update Personal Information
       tags:
       - personal-information
@@ -544,13 +499,7 @@ paths:
     post:
       consumes:
       - application/json
-      description: Create Work Experience
       parameters:
-      - description: Bearer JWT Token
-        in: header
-        name: Authorization
-        required: true
-        type: string
       - description: Body Request
         in: body
         name: body
@@ -573,7 +522,7 @@ paths:
           schema:
             $ref: '#/definitions/dto.ErrorSchema'
       security:
-      - BearerAuth  // Menunjukkan endpoint membutuhkan otentikasi Bearer token: []
+      - BearerAuth: []
       summary: Insert Work Experience
       tags:
       - work-experience
@@ -581,13 +530,7 @@ paths:
     put:
       consumes:
       - application/json
-      description: Retrieve detailed work experience by ID
       parameters:
-      - description: Bearer JWT Token
-        in: header
-        name: Authorization
-        required: true
-        type: string
       - description: Work Experience ID
         in: path
         name: id
@@ -611,7 +554,7 @@ paths:
           schema:
             $ref: '#/definitions/dto.ErrorSchema'
       security:
-      - BearerAuth  // Menunjukkan endpoint membutuhkan otentikasi Bearer token: []
+      - BearerAuth: []
       summary: Update Work Experience
       tags:
       - work-experience
@@ -619,13 +562,7 @@ paths:
     get:
       consumes:
       - application/json
-      description: Get Work Experience by User Id
       parameters:
-      - description: Bearer JWT Token
-        in: header
-        name: Authorization
-        required: true
-        type: string
       - description: User ID
         in: path
         name: userId
@@ -659,8 +596,13 @@ paths:
           schema:
             $ref: '#/definitions/dto.ErrorSchema'
       security:
-      - BearerAuth  // Menunjukkan endpoint membutuhkan otentikasi Bearer token: []
+      - BearerAuth: []
       summary: Get Work Experience
       tags:
       - work-experience
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"

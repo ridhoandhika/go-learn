@@ -26,12 +26,10 @@ func (u userService) Authenticate(ctx context.Context, req dto.AuthReq) (dto.Aut
 	user, err := u.userRepository.FindByUsername(ctx, req.Username)
 	if err != nil {
 		return dto.AuthResp{}, errors.New("401")
-		// return util.ErrorResponse("404", "User tidak ditemukan", "User not found"), nil
 	}
 
 	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(req.Password))
 	if err != nil {
-		// Jika password tidak cocok, kembalikan error 401 Unauthorized
 		return dto.AuthResp{}, errors.New("401")
 	}
 
@@ -60,8 +58,8 @@ func (u userService) ValidateToken(ctx context.Context, token string) (dto.AuthR
 		return dto.AuthResp{}, errors.New("invalid")
 	}
 
-	// Mengambil nilai 'exp' dari klaim
-	username, ok := claims["username"].(string) // Klaim 'exp' biasanya bertipe float64
+	// Mengambil nilai 'username' dari klaim
+	username, ok := claims["username"].(string)
 	if !ok {
 		return dto.AuthResp{}, errors.New("invalid")
 	}
@@ -71,7 +69,6 @@ func (u userService) ValidateToken(ctx context.Context, token string) (dto.AuthR
 		return dto.AuthResp{}, errors.New("invalid")
 	}
 
-	// Mengembalikan response dengan data yang diinginkan
 	return dto.AuthResp{
 		AccessToken: newToken,
 	}, nil

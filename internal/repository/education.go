@@ -40,13 +40,11 @@ func (u educationRepository) Insert(ctx context.Context, req dto.InsertEducation
 		EndDate:      req.EndDate,
 	}
 
-	// Menyisipkan user baru ke dalam tabel
 	err := u.db.WithContext(ctx).Create(&education).Error
 	if err != nil {
 		return false, err
 	}
 
-	// Kembalikan ID user yang baru saja dimasukkan
 	return true, nil
 }
 
@@ -54,11 +52,9 @@ func (u educationRepository) Update(ctx context.Context, educationId uuid.UUID, 
 	var education domain.Education
 	err := u.db.WithContext(ctx).Where("education_id = ?", educationId).First(&education).Error
 	if err != nil {
-		// Jika data tidak ditemukan, kembalikan error
 		return false, err
 	}
 
-	// Update data WorkExperience dengan nilai-nilai yang diberikan dalam request
 	err = u.db.WithContext(ctx).Model(&education).Updates(domain.Education{
 		Degree:       req.Degree,
 		SchoolName:   req.SchoolName,
@@ -69,10 +65,8 @@ func (u educationRepository) Update(ctx context.Context, educationId uuid.UUID, 
 	}).Error
 
 	if err != nil {
-		// Jika ada error saat update
 		return false, err
 	}
 
-	// Jika berhasil, kembalikan data yang sudah diperbarui
 	return true, nil
 }

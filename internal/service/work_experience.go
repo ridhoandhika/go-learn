@@ -24,7 +24,7 @@ func (p workExperienceService) Insert(ctx context.Context, req dto.InsertWorkExp
 	if err != nil {
 		return util.ErrorResponse("400", "Permintaan Tidak Valid", "Bad Request"), err
 	}
-	// return response
+
 	return util.ErrorResponse("200", "Sukses", "Success"), nil
 }
 
@@ -41,7 +41,7 @@ func (p workExperienceService) FindByUserId(ctx context.Context, userId string) 
 
 	var response dto.WorkExperiencesResp
 	var workExperienceList []dto.WorkExperience
-	// Convert data WorkExperience ke WorkExperiencesResp
+	// Convert data ke WorkExperience
 	for _, work := range data {
 		// Tambahkan objek Education ke dalam educationList
 		workExperienceList = append(workExperienceList, dto.WorkExperience{
@@ -72,7 +72,6 @@ func (p workExperienceService) FindByUserId(ctx context.Context, userId string) 
 func (w workExperienceService) Update(ctx context.Context, workExperienceId string, req dto.UpdateWorkExperienceReq) (dto.BaseResp, error) {
 	parsedWorkExperienceId, err := uuid.Parse(workExperienceId)
 	if err != nil {
-		// Jika sudah ada, return error bahwa data sudah ada
 		return util.ErrorResponse("400", "Permintaan tidak valid", "Bad request"), nil
 	}
 
@@ -81,6 +80,5 @@ func (w workExperienceService) Update(ctx context.Context, workExperienceId stri
 		return util.ErrorResponse("400", "Gagal", "Failed"), nil
 	}
 
-	// return response
 	return util.ErrorResponse("200", "Sukses", "Success"), nil
 }

@@ -22,13 +22,11 @@ func Education(app *fiber.Group, educationService domain.EducationService, authM
 	app.Post("education", authMid, handler.Insert)
 }
 
+// @Security BearerAuth
 // @Summary Get Education
-// @Description Get Education by User Id
 // @Tags education
 // @Accept json
 // @Produce json
-// @Security BearerAuth  // Menunjukkan endpoint membutuhkan otentikasi Bearer token
-// @Param Authorization header string true "Bearer JWT Token"  // Menambahkan parameter header untuk token otentikasi
 // @Param userId path string true "User ID"
 // @Success 200 {object} dto.BaseResp{output_schema=dto.EducationResp{education=[]dto.Education{}}} "Education details successfully retrieved"
 // @Failure 400 {object} dto.ErrorSchema "Bad Request"
@@ -45,14 +43,12 @@ func (a educationApi) FindByUserId(ctx *fiber.Ctx) error {
 	return ctx.Status(200).JSON(data)
 }
 
+// @Security BearerAuth
 // @Summary Insert Education
-// @Description Create Education
 // @Tags education
 // @Accept json
 // @Produce json
-// @Security BearerAuth  // Menunjukkan endpoint membutuhkan otentikasi Bearer token
-// @Param Authorization header string true "Bearer JWT Token"  // Menambahkan parameter header untuk token otentikasi
-// @Param body body dto.InsertEducationReq true "Body Request" // Mendefinisikan parameter yang dikirimkan dalam request body
+// @Param body body dto.InsertEducationReq true "Body Request"
 // @Success 200 {object} dto.BaseResp "Education Details"
 // @Failure 400 {object} dto.ErrorSchema "Bad Request"
 // @Router /api/education [post]
@@ -71,15 +67,13 @@ func (a educationApi) Insert(ctx *fiber.Ctx) error {
 	return ctx.Status(200).JSON(data)
 }
 
+// @Security BearerAuth
 // @Summary Update Education
-// @Description Retrieve detailed education by ID
 // @Tags education
 // @Accept json
 // @Produce json
-// @Security BearerAuth  // Menunjukkan endpoint membutuhkan otentikasi Bearer token
-// @Param Authorization header string true "Bearer JWT Token"  // Menambahkan parameter header untuk token otentikasi
 // @Param id path string true "Education ID"
-// @Param body body dto.UpdateEducationReq true "Body Request" // Mendefinisikan parameter yang dikirimkan dalam request body
+// @Param body body dto.UpdateEducationReq true "Body Request"
 // @Success 200 {object} dto.BaseResp "Work Experience resp"
 // @Failure 400 {object} dto.ErrorSchema "Bad Request"
 // @Router /api/education/{id} [put]

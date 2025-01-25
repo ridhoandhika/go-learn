@@ -12,6 +12,9 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
+// @securityDefinitions.apikey BearerAuth
+// @in header
+// @name Authorization
 func main() {
 	cnf := config.Get()
 	dbConnection := component.GetDatabaseConnection(cnf)

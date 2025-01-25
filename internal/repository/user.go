@@ -31,27 +31,18 @@ func (u userRepository) FindByUsername(ctx context.Context, username string) (us
 
 func (u userRepository) InsertUser(ctx context.Context, req dto.UserRegisterReq) (interface{}, error) {
 
-	// user := domain.User{
-	// 	Username: req.Username,
-	// 	Password: req.Password,
-	// 	Phone:    req.Phone,
-	// 	Fullname: req.Fullname,
-	// }
-
 	user := domain.User{
-		ID:       uuid.New(), // Generate UUID baru
+		ID:       uuid.New(),
 		Username: req.Username,
 		Password: req.Password,
 		Phone:    req.Phone,
 		Fullname: req.Fullname,
 	}
 
-	// Menyisipkan user baru ke dalam tabel
 	err := u.db.WithContext(ctx).Create(&user).Error
 	if err != nil {
 		return nil, err
 	}
 
-	// Kembalikan ID user yang baru saja dimasukkan
 	return nil, nil
 }
