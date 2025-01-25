@@ -38,7 +38,7 @@ func GetDatabaseConnection(cnf *config.Config) *gorm.DB {
 	}
 	db.Exec("CREATE SCHEMA IF NOT EXISTS custom_schema")
 	// Melakukan migrasi ke database (membuat tabel user jika belum ada)
-	err = db.Debug().AutoMigrate(&domain.User{}, &domain.PersonalInformation{}, &domain.WorkExperience{})
+	err = db.Debug().AutoMigrate(&domain.User{}, &domain.PersonalInformation{}, &domain.WorkExperience{}, &domain.Education{})
 	if err != nil {
 		log.Fatalf("Gagal melakukan migrasi: %v", err)
 	}

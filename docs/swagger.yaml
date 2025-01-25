@@ -18,6 +18,30 @@ definitions:
       output_schema:
         description: OutputSchema fleksibel (bisa berisi apa saja)
     type: object
+  dto.Education:
+    properties:
+      degree:
+        type: string
+      description:
+        type: string
+      education_id:
+        type: string
+      end_date:
+        type: string
+      field_of_study:
+        type: string
+      school_name:
+        type: string
+      start_date:
+        type: string
+    type: object
+  dto.EducationResp:
+    properties:
+      education:
+        items:
+          $ref: '#/definitions/dto.Education'
+        type: array
+    type: object
   dto.ErrorMessage:
     properties:
       en:
@@ -31,6 +55,25 @@ definitions:
         type: string
       error_message:
         $ref: '#/definitions/dto.ErrorMessage'
+    type: object
+  dto.InsertEducationReq:
+    properties:
+      degree:
+        type: string
+      description:
+        type: string
+      education_id:
+        type: string
+      end_date:
+        type: string
+      field_of_study:
+        type: string
+      school_name:
+        type: string
+      start_date:
+        type: string
+      user_id:
+        type: string
     type: object
   dto.InsertPersonalInformationReq:
     properties:
@@ -87,6 +130,21 @@ definitions:
       user_id:
         type: string
     type: object
+  dto.UpdateEducationReq:
+    properties:
+      degree:
+        type: string
+      description:
+        type: string
+      end_date:
+        type: string
+      field_of_study:
+        type: string
+      school_name:
+        type: string
+      start_date:
+        type: string
+    type: object
   dto.UpdatePersonalInformationReq:
     properties:
       address:
@@ -127,6 +185,26 @@ definitions:
         type: string
       username:
         type: string
+    type: object
+  dto.WorkExperience:
+    properties:
+      company_name:
+        type: string
+      end_date:
+        type: string
+      job_description:
+        type: string
+      job_title:
+        type: string
+      start_date:
+        type: string
+    type: object
+  dto.WorkExperiencesResp:
+    properties:
+      work_experience:
+        items:
+          $ref: '#/definitions/dto.WorkExperience'
+        type: array
     type: object
 info:
   contact: {}
@@ -228,6 +306,121 @@ paths:
       summary: Register a new user
       tags:
       - auth
+  /api/education:
+    post:
+      consumes:
+      - application/json
+      description: Create Education
+      parameters:
+      - description: Bearer JWT Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Body Request
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.InsertEducationReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Education Details
+          schema:
+            $ref: '#/definitions/dto.BaseResp'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorSchema'
+      security:
+      - BearerAuth  // Menunjukkan endpoint membutuhkan otentikasi Bearer token: []
+      summary: Insert Education
+      tags:
+      - education
+  /api/education/{id}:
+    put:
+      consumes:
+      - application/json
+      description: Retrieve detailed education by ID
+      parameters:
+      - description: Bearer JWT Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Education ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Body Request
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateEducationReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Work Experience resp
+          schema:
+            $ref: '#/definitions/dto.BaseResp'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorSchema'
+      security:
+      - BearerAuth  // Menunjukkan endpoint membutuhkan otentikasi Bearer token: []
+      summary: Update Education
+      tags:
+      - education
+  /api/education/{userId}:
+    get:
+      consumes:
+      - application/json
+      description: Get Education by User Id
+      parameters:
+      - description: Bearer JWT Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: User ID
+        in: path
+        name: userId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Education details successfully retrieved
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.BaseResp'
+            - properties:
+                output_schema:
+                  allOf:
+                  - $ref: '#/definitions/dto.EducationResp'
+                  - properties:
+                      education:
+                        items:
+                          $ref: '#/definitions/dto.Education'
+                        type: array
+                    type: object
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorSchema'
+      security:
+      - BearerAuth  // Menunjukkan endpoint membutuhkan otentikasi Bearer token: []
+      summary: Get Education
+      tags:
+      - education
   /api/personal-information:
     post:
       consumes:
@@ -290,7 +483,7 @@ paths:
             allOf:
             - $ref: '#/definitions/dto.BaseResp'
             - properties:
-                outputSchema:
+                output_schema:
                   $ref: '#/definitions/dto.PersonalInformationResp'
               type: object
         "400":
@@ -442,9 +635,21 @@ paths:
       - application/json
       responses:
         "200":
-          description: Working Experience
+          description: Working Experiences
           schema:
-            $ref: '#/definitions/dto.BaseResp'
+            allOf:
+            - $ref: '#/definitions/dto.BaseResp'
+            - properties:
+                output_schema:
+                  allOf:
+                  - $ref: '#/definitions/dto.WorkExperiencesResp'
+                  - properties:
+                      work_experience:
+                        items:
+                          $ref: '#/definitions/dto.WorkExperience'
+                        type: array
+                    type: object
+              type: object
         "400":
           description: Bad Request
           schema:

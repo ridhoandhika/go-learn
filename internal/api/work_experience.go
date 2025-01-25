@@ -56,7 +56,7 @@ func (a workExperienceApi) Insert(ctx *fiber.Ctx) error {
 // @Security BearerAuth  // Menunjukkan endpoint membutuhkan otentikasi Bearer token
 // @Param Authorization header string true "Bearer JWT Token"  // Menambahkan parameter header untuk token otentikasi
 // @Param userId path string true "User ID"
-// @Success 200 {object} dto.BaseResp "Working Experience"
+// @Success 200 {object} dto.BaseResp{output_schema=dto.WorkExperiencesResp{work_experience=[]dto.WorkExperience{}}} "Working Experiences"
 // @Failure 409 {object} dto.ErrorSchema "Conflict"
 // @Failure 400 {object} dto.ErrorSchema "Bad Request"
 // @Router /api/work-experience/{userId} [get]

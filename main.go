@@ -20,10 +20,12 @@ func main() {
 	userRepository := repository.User(dbConnection)
 	personalInfoRepository := repository.PersonalInformation((dbConnection))
 	workExperienceRepository := repository.WorkExperience((dbConnection))
+	educationRepository := repository.Education((dbConnection))
 
 	userService := service.User(userRepository)
 	personalInfoService := service.PersonalInformation(personalInfoRepository)
 	workExperienceService := service.WorkExperience(workExperienceRepository)
+	educationService := service.Education(educationRepository)
 
 	authMiddleware := middleware.Authenticate(userService)
 
@@ -45,6 +47,7 @@ func main() {
 	api.Auth(apiRoutes.(*fiber.Group), userService, authMiddleware)
 	api.PersonalInformation(apiRoutes.(*fiber.Group), personalInfoService, authMiddleware)
 	api.WorkExperience(apiRoutes.(*fiber.Group), workExperienceService, authMiddleware)
+	api.Education(apiRoutes.(*fiber.Group), educationService, authMiddleware)
 
 	app.Listen(cnf.Server.Host + ":" + cnf.Server.Port)
 }

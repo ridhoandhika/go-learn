@@ -39,16 +39,22 @@ func (p workExperienceService) FindByUserId(ctx context.Context, userId string) 
 		return util.ErrorResponse("404", "Pengguna tidak ditemukan", "User not found"), nil
 	}
 
+	var response dto.WorkExperiencesResp
+	var workExperienceList []dto.WorkExperience
 	// Convert data WorkExperience ke WorkExperiencesResp
-	var response []dto.WorkExperiencesResp
 	for _, work := range data {
-		response = append(response, dto.WorkExperiencesResp{
+		// Tambahkan objek Education ke dalam educationList
+		workExperienceList = append(workExperienceList, dto.WorkExperience{
 			JobTitle:       work.JobTitle,
 			CompanyName:    work.CompanyName,
 			StartDate:      work.StartDate,
 			EndDate:        work.EndDate,
 			JobDescription: work.JobDescription,
 		})
+	}
+
+	response = dto.WorkExperiencesResp{
+		WorkExperience: workExperienceList,
 	}
 
 	return dto.BaseResp{

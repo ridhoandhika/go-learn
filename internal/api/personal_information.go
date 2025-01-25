@@ -30,7 +30,7 @@ func PersonalInformation(app *fiber.Group, personalInformationService domain.Per
 // @Security BearerAuth  // Menunjukkan endpoint membutuhkan otentikasi Bearer token
 // @Param Authorization header string true "Bearer JWT Token"  // Menambahkan parameter header untuk token otentikasi
 // @Param id path string true "Personal Information ID"
-// @Success 200 {object} dto.BaseResp{outputSchema=dto.PersonalInformationResp} "Personal Information Details"
+// @Success 200 {object} dto.BaseResp{output_schema=dto.PersonalInformationResp} "Personal Information Details"
 // @Failure 400 {object} dto.ErrorSchema "Invalid Request"
 // @Failure 401 {object} dto.ErrorSchema "Authentication Failed"
 // @Failure 404 {object} dto.ErrorSchema "User Not Found"

@@ -18,6 +18,7 @@ type User struct {
 	Fullname       string              `gorm:"type:varchar(255);not null"` // Kolom Fullname yang tidak boleh kosong
 	PersonalInfo   PersonalInformation `gorm:"foreignKey:UserID;constraint:OnDelete:CASCADE"`
 	WorkExperience []WorkExperience    `gorm:"foreignKey:UserID;constraint:OnDelete:CASCADE"`
+	Education      []Education         `gorm:"foreignKey:UserID;constraint:OnDelete:CASCADE"`
 	CreatedAt      time.Time           // Kolom CreatedAt
 	UpdatedAt      time.Time           // Kolom UpdatedAt
 }

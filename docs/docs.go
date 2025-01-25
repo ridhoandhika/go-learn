@@ -174,6 +174,194 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/education": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth  // Menunjukkan endpoint membutuhkan otentikasi Bearer token": []
+                    }
+                ],
+                "description": "Create Education",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "education"
+                ],
+                "summary": "Insert Education",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer JWT Token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "Body Request",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.InsertEducationReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Education Details",
+                        "schema": {
+                            "$ref": "#/definitions/dto.BaseResp"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorSchema"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/education/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth  // Menunjukkan endpoint membutuhkan otentikasi Bearer token": []
+                    }
+                ],
+                "description": "Retrieve detailed education by ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "education"
+                ],
+                "summary": "Update Education",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer JWT Token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Education ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Body Request",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.UpdateEducationReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Work Experience resp",
+                        "schema": {
+                            "$ref": "#/definitions/dto.BaseResp"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorSchema"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/education/{userId}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth  // Menunjukkan endpoint membutuhkan otentikasi Bearer token": []
+                    }
+                ],
+                "description": "Get Education by User Id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "education"
+                ],
+                "summary": "Get Education",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer JWT Token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "userId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Education details successfully retrieved",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/dto.BaseResp"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "output_schema": {
+                                            "allOf": [
+                                                {
+                                                    "$ref": "#/definitions/dto.EducationResp"
+                                                },
+                                                {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "education": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "$ref": "#/definitions/dto.Education"
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorSchema"
+                        }
+                    }
+                }
+            }
+        },
         "/api/personal-information": {
             "post": {
                 "security": [
@@ -277,7 +465,7 @@ const docTemplate = `{
                                 {
                                     "type": "object",
                                     "properties": {
-                                        "outputSchema": {
+                                        "output_schema": {
                                             "$ref": "#/definitions/dto.PersonalInformationResp"
                                         }
                                     }
@@ -516,9 +704,36 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "Working Experience",
+                        "description": "Working Experiences",
                         "schema": {
-                            "$ref": "#/definitions/dto.BaseResp"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/dto.BaseResp"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "output_schema": {
+                                            "allOf": [
+                                                {
+                                                    "$ref": "#/definitions/dto.WorkExperiencesResp"
+                                                },
+                                                {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "work_experience": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "$ref": "#/definitions/dto.WorkExperience"
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     },
                     "400": {
@@ -568,6 +783,43 @@ const docTemplate = `{
                 }
             }
         },
+        "dto.Education": {
+            "type": "object",
+            "properties": {
+                "degree": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "education_id": {
+                    "type": "string"
+                },
+                "end_date": {
+                    "type": "string"
+                },
+                "field_of_study": {
+                    "type": "string"
+                },
+                "school_name": {
+                    "type": "string"
+                },
+                "start_date": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.EducationResp": {
+            "type": "object",
+            "properties": {
+                "education": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.Education"
+                    }
+                }
+            }
+        },
         "dto.ErrorMessage": {
             "type": "object",
             "properties": {
@@ -587,6 +839,35 @@ const docTemplate = `{
                 },
                 "error_message": {
                     "$ref": "#/definitions/dto.ErrorMessage"
+                }
+            }
+        },
+        "dto.InsertEducationReq": {
+            "type": "object",
+            "properties": {
+                "degree": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "education_id": {
+                    "type": "string"
+                },
+                "end_date": {
+                    "type": "string"
+                },
+                "field_of_study": {
+                    "type": "string"
+                },
+                "school_name": {
+                    "type": "string"
+                },
+                "start_date": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "string"
                 }
             }
         },
@@ -674,6 +955,29 @@ const docTemplate = `{
                 }
             }
         },
+        "dto.UpdateEducationReq": {
+            "type": "object",
+            "properties": {
+                "degree": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "end_date": {
+                    "type": "string"
+                },
+                "field_of_study": {
+                    "type": "string"
+                },
+                "school_name": {
+                    "type": "string"
+                },
+                "start_date": {
+                    "type": "string"
+                }
+            }
+        },
         "dto.UpdatePersonalInformationReq": {
             "type": "object",
             "properties": {
@@ -734,6 +1038,37 @@ const docTemplate = `{
                 },
                 "username": {
                     "type": "string"
+                }
+            }
+        },
+        "dto.WorkExperience": {
+            "type": "object",
+            "properties": {
+                "company_name": {
+                    "type": "string"
+                },
+                "end_date": {
+                    "type": "string"
+                },
+                "job_description": {
+                    "type": "string"
+                },
+                "job_title": {
+                    "type": "string"
+                },
+                "start_date": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.WorkExperiencesResp": {
+            "type": "object",
+            "properties": {
+                "work_experience": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.WorkExperience"
+                    }
                 }
             }
         }
