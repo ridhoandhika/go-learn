@@ -25,15 +25,13 @@ func (WorkExperience) TableName() string {
 }
 
 type WorkExperienceRepository interface {
-	// FindByID(ctx context.Context, id uuid.UUID) (WorkExperience, error)
-	// FindByUserID(ctx context.Context, userId uuid.UUID) (WorkExperience, error)
-	Insert(ctx context.Context, req dto.InsertWorkExperienceReq) (interface{}, error)
-	// Update(ctx context.Context, req interface{}) (interface{}, error)
+	FindByUserId(ctx context.Context, id uuid.UUID) ([]WorkExperience, error)
+	Insert(ctx context.Context, req dto.InsertWorkExperienceReq) (bool, error)
+	Update(ctx context.Context, id uuid.UUID, req dto.UpdateWorkExperienceReq) (bool, error)
 }
 
 type WorkExperienceService interface {
-	// FindByIDPeronalInfo(ctx context.Context, id string) (dto.BaseResp, error)
+	FindByUserId(ctx context.Context, id string) (dto.BaseResp, error)
 	Insert(ctx context.Context, req dto.InsertWorkExperienceReq) (dto.BaseResp, error)
-	// Update(ctx context.Context, personalInfoID uuid.UUID, req dto.UpdatePersonalInformationReq) (dto.BaseResp, error)
-	// Update(ctx context.Context, req dto.PersonalInformationReq) (dto.BaseResp, error)
+	Update(ctx context.Context, id string, req dto.UpdateWorkExperienceReq) (dto.BaseResp, error)
 }

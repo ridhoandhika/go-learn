@@ -174,7 +174,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/personal_information": {
+        "/api/personal-information": {
             "post": {
                 "security": [
                     {
@@ -232,66 +232,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/personal_information/{PersonalInfoID}": {
-            "put": {
-                "security": [
-                    {
-                        "BearerAuth  // Menunjukkan endpoint membutuhkan otentikasi Bearer token": []
-                    }
-                ],
-                "description": "Retrieve detailed personal information by ID",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "personal-information"
-                ],
-                "summary": "Update Personal Information",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Bearer JWT Token",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Personal Information ID",
-                        "name": "PersonalInfoID",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "description": "Body Request",
-                        "name": "body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/dto.UpdatePersonalInformationReq"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Personal Information Details",
-                        "schema": {
-                            "$ref": "#/definitions/dto.BaseResp"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/dto.ErrorSchema"
-                        }
-                    }
-                }
-            }
-        },
-        "/api/personal_information/{id}": {
+        "/api/personal-information/{id}": {
             "get": {
                 "security": [
                     {
@@ -363,9 +304,66 @@ const docTemplate = `{
                         }
                     }
                 }
+            },
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth  // Menunjukkan endpoint membutuhkan otentikasi Bearer token": []
+                    }
+                ],
+                "description": "Retrieve detailed personal information by ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "personal-information"
+                ],
+                "summary": "Update Personal Information",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer JWT Token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Personal Information ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Body Request",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.UpdatePersonalInformationReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Personal Information Details",
+                        "schema": {
+                            "$ref": "#/definitions/dto.BaseResp"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorSchema"
+                        }
+                    }
+                }
             }
         },
-        "/api/work_experience": {
+        "/api/work-experience": {
             "post": {
                 "security": [
                     {
@@ -404,6 +402,121 @@ const docTemplate = `{
                 "responses": {
                     "200": {
                         "description": "Personal Information Details",
+                        "schema": {
+                            "$ref": "#/definitions/dto.BaseResp"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorSchema"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorSchema"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/work-experience/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth  // Menunjukkan endpoint membutuhkan otentikasi Bearer token": []
+                    }
+                ],
+                "description": "Retrieve detailed work experience by ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "work-experience"
+                ],
+                "summary": "Update Work Experience",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer JWT Token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Work Experience ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Body Request",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.UpdateWorkExperienceReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Work Experience resp",
+                        "schema": {
+                            "$ref": "#/definitions/dto.BaseResp"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorSchema"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/work-experience/{userId}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth  // Menunjukkan endpoint membutuhkan otentikasi Bearer token": []
+                    }
+                ],
+                "description": "Get Work Experience by User Id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "work-experience"
+                ],
+                "summary": "Get Work Experience",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer JWT Token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "userId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Working Experience",
                         "schema": {
                             "$ref": "#/definitions/dto.BaseResp"
                         }
@@ -583,6 +696,26 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "summary": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.UpdateWorkExperienceReq": {
+            "type": "object",
+            "properties": {
+                "company_name": {
+                    "type": "string"
+                },
+                "end_date": {
+                    "type": "string"
+                },
+                "job_description": {
+                    "type": "string"
+                },
+                "job_title": {
+                    "type": "string"
+                },
+                "start_date": {
                     "type": "string"
                 }
             }

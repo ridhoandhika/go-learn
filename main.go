@@ -31,8 +31,8 @@ func main() {
 	// Tentukan konfigurasi Swagger
 	cfg := swagger.Config{
 		BasePath: "/",
-		FilePath: "./docs/swagger.json", // Path menuju file swagger.json
-		Path:     "/swagger",            // Swagger UI akan dapat diakses di /swagger
+		FilePath: "./docs/swagger.json",
+		Path:     "/swagger",
 		Title:    "Swagger API Docs",
 	}
 

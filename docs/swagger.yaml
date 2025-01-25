@@ -104,6 +104,19 @@ definitions:
       summary:
         type: string
     type: object
+  dto.UpdateWorkExperienceReq:
+    properties:
+      company_name:
+        type: string
+      end_date:
+        type: string
+      job_description:
+        type: string
+      job_title:
+        type: string
+      start_date:
+        type: string
+    type: object
   dto.UserRegisterReq:
     properties:
       fullname:
@@ -215,7 +228,7 @@ paths:
       summary: Register a new user
       tags:
       - auth
-  /api/personal_information:
+  /api/personal-information:
     post:
       consumes:
       - application/json
@@ -252,45 +265,7 @@ paths:
       summary: Insert Personal Information
       tags:
       - personal-information
-  /api/personal_information/{PersonalInfoID}:
-    put:
-      consumes:
-      - application/json
-      description: Retrieve detailed personal information by ID
-      parameters:
-      - description: Bearer JWT Token
-        in: header
-        name: Authorization
-        required: true
-        type: string
-      - description: Personal Information ID
-        in: path
-        name: PersonalInfoID
-        required: true
-        type: string
-      - description: Body Request
-        in: body
-        name: body
-        required: true
-        schema:
-          $ref: '#/definitions/dto.UpdatePersonalInformationReq'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: Personal Information Details
-          schema:
-            $ref: '#/definitions/dto.BaseResp'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/dto.ErrorSchema'
-      security:
-      - BearerAuth  // Menunjukkan endpoint membutuhkan otentikasi Bearer token: []
-      summary: Update Personal Information
-      tags:
-      - personal-information
-  /api/personal_information/{id}:
+  /api/personal-information/{id}:
     get:
       consumes:
       - application/json
@@ -335,7 +310,44 @@ paths:
       summary: Get Personal Information
       tags:
       - personal-information
-  /api/work_experience:
+    put:
+      consumes:
+      - application/json
+      description: Retrieve detailed personal information by ID
+      parameters:
+      - description: Bearer JWT Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Personal Information ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Body Request
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdatePersonalInformationReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Personal Information Details
+          schema:
+            $ref: '#/definitions/dto.BaseResp'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorSchema'
+      security:
+      - BearerAuth  // Menunjukkan endpoint membutuhkan otentikasi Bearer token: []
+      summary: Update Personal Information
+      tags:
+      - personal-information
+  /api/work-experience:
     post:
       consumes:
       - application/json
@@ -370,6 +382,80 @@ paths:
       security:
       - BearerAuth  // Menunjukkan endpoint membutuhkan otentikasi Bearer token: []
       summary: Insert Work Experience
+      tags:
+      - work-experience
+  /api/work-experience/{id}:
+    put:
+      consumes:
+      - application/json
+      description: Retrieve detailed work experience by ID
+      parameters:
+      - description: Bearer JWT Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Work Experience ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Body Request
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateWorkExperienceReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Work Experience resp
+          schema:
+            $ref: '#/definitions/dto.BaseResp'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorSchema'
+      security:
+      - BearerAuth  // Menunjukkan endpoint membutuhkan otentikasi Bearer token: []
+      summary: Update Work Experience
+      tags:
+      - work-experience
+  /api/work-experience/{userId}:
+    get:
+      consumes:
+      - application/json
+      description: Get Work Experience by User Id
+      parameters:
+      - description: Bearer JWT Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: User ID
+        in: path
+        name: userId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Working Experience
+          schema:
+            $ref: '#/definitions/dto.BaseResp'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorSchema'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/dto.ErrorSchema'
+      security:
+      - BearerAuth  // Menunjukkan endpoint membutuhkan otentikasi Bearer token: []
+      summary: Get Work Experience
       tags:
       - work-experience
 swagger: "2.0"

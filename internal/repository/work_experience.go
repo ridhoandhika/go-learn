@@ -24,12 +24,13 @@ func WorkExperience(con *gorm.DB) domain.WorkExperienceRepository {
 // 	return
 // }
 
-// func (u personalInformationRepository) FindByUserID(ctx context.Context, userId uuid.UUID) (peronalInformation domain.PersonalInformation, err error) {
-// 	err = u.db.WithContext(ctx).Where("user_id = ?", userId).First(&peronalInformation).Error
-// 	return
-// }
+func (u workExperienceRepository) FindByUserId(ctx context.Context, userId uuid.UUID) ([]domain.WorkExperience, error) {
+	var workExperiences []domain.WorkExperience
+	err := u.db.WithContext(ctx).Where("user_id = ?", userId).Find(&workExperiences).Error
+	return workExperiences, err
+}
 
-func (u workExperienceRepository) Insert(ctx context.Context, req dto.InsertWorkExperienceReq) (interface{}, error) {
+func (u workExperienceRepository) Insert(ctx context.Context, req dto.InsertWorkExperienceReq) (bool, error) {
 	workExperience := domain.WorkExperience{
 		WorkExperienceID: uuid.New(),
 		UserID:           req.UserID,
@@ -43,37 +44,35 @@ func (u workExperienceRepository) Insert(ctx context.Context, req dto.InsertWork
 	// Menyisipkan user baru ke dalam tabel
 	err := u.db.WithContext(ctx).Create(&workExperience).Error
 	if err != nil {
-		return nil, err
+		return false, err
 	}
 
 	// Kembalikan ID user yang baru saja dimasukkan
-	return nil, nil
+	return true, nil
 }
 
-// func (u personalInformationRepository) Update(ctx context.Context, personalInfoID uuid.UUID, req dto.UpdatePersonalInformationReq) (bool, error) {
-// 	var personalInformation domain.PersonalInformation
-// 	err := u.db.WithContext(ctx).Where("personal_info_id = ?", personalInfoID).First(&personalInformation).Error
-// 	if err != nil {
-// 		// Jika data tidak ditemukan, kembalikan error
-// 		return false, err
-// 	}
+func (u workExperienceRepository) Update(ctx context.Context, workExperienceId uuid.UUID, req dto.UpdateWorkExperienceReq) (bool, error) {
+	var workExperience domain.WorkExperience
+	err := u.db.WithContext(ctx).Where("work_experience_id = ?", workExperienceId).First(&workExperience).Error
+	if err != nil {
+		// Jika data tidak ditemukan, kembalikan error
+		return false, err
+	}
 
-// 	// Update data PersonalInformation dengan nilai-nilai yang diberikan dalam request
-// 	err = u.db.WithContext(ctx).Model(&personalInformation).Updates(domain.PersonalInformation{
-// 		FirstName:   req.FirstName,
-// 		LastName:    req.LastName,
-// 		PhoneNumber: req.PhoneNumber,
-// 		Email:       req.Email,
-// 		Address:     req.Address,
-// 		Summary:     req.Summary,
-// 		DateOfBirth: req.DateOfBirth,
-// 	}).Error
+	// Update data WorkExperience dengan nilai-nilai yang diberikan dalam request
+	err = u.db.WithContext(ctx).Model(&workExperience).Updates(domain.WorkExperience{
+		JobTitle:       req.JobTitle,
+		CompanyName:    req.CompanyName,
+		StartDate:      req.StartDate,
+		EndDate:        req.EndDate,
+		JobDescription: req.JobDescription,
+	}).Error
 
-// 	if err != nil {
-// 		// Jika ada error saat update
-// 		return false, err
-// 	}
+	if err != nil {
+		// Jika ada error saat update
+		return false, err
+	}
 
-// 	// Jika berhasil, kembalikan data yang sudah diperbarui
-// 	return true, nil
-// }
+	// Jika berhasil, kembalikan data yang sudah diperbarui
+	return true, nil
+}
