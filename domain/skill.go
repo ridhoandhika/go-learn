@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
+	"gorm.io/gorm"
 )
 
 type Level string
@@ -17,6 +18,7 @@ const (
 )
 
 type Skill struct {
+	gorm.Model
 	SkillID   uuid.UUID `gorm:"type:uuid;primaryKey"`
 	UserID    uuid.UUID `gorm:"type:uuid;not null"`
 	Name      string    `gorm:"type:varchar(100);not null"`

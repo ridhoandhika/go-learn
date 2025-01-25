@@ -6,9 +6,11 @@ import (
 	"time"
 
 	"github.com/google/uuid"
+	"gorm.io/gorm"
 )
 
 type WorkExperience struct {
+	gorm.Model
 	WorkExperienceID uuid.UUID `gorm:"type:uuid;primaryKey"`
 	UserID           uuid.UUID `gorm:"type:uuid;not null"`
 	JobTitle         string    `gorm:"type:varchar(255)"`
