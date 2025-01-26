@@ -17,31 +17,31 @@ func Certification(app *fiber.Group, certificationService domain.CertificationSe
 	handler := certificationApi{
 		certificationService: certificationService,
 	}
-	app.Get("certification/:userId", authMid, handler.FindByUserId)
+	// app.Get("certification/:userId", authMid, handler.FindByUserId)
 	app.Post("certification", authMid, handler.Insert)
 	app.Put("certification/:id", authMid, handler.Update)
 }
 
-// @Security BearerAuth
-// @Summary Get Certification
-// @Tags certification
-// @Accept json
-// @Produce json
-// @Param userId path string true "User ID"
-// @Success 200 {object} dto.BaseResp{output_schema=dto.CertificationResp{certifications=[]dto.Certification{}}} "Certification details successfully retrieved"
-// @Failure 400 {object} dto.ErrorSchema "Bad Request"
-// @Router /api/certification/{userId} [get]
-func (a certificationApi) FindByUserId(ctx *fiber.Ctx) error {
-	id := ctx.Params("userId")
-	data, err := a.certificationService.FindByUserId(ctx.Context(), id)
-	if err != nil {
-		// Log error for debugging
-		fmt.Printf("Error: %v\n", err)
-		return ctx.SendStatus(util.GetHttpStatus(err))
-	}
+// // @Security BearerAuth
+// // @Summary Get Certification
+// // @Tags certification
+// // @Accept json
+// // @Produce json
+// // @Param userId path string true "User ID"
+// // @Success 200 {object} dto.BaseResp{output_schema=dto.CertificationResp{certifications=[]dto.Certification{}}} "Certification details successfully retrieved"
+// // @Failure 400 {object} dto.ErrorSchema "Bad Request"
+// // @Router /api/certification/{userId} [get]
+// func (a certificationApi) FindByUserId(ctx *fiber.Ctx) error {
+// 	id := ctx.Params("userId")
+// 	data, err := a.certificationService.FindByUserId(ctx.Context(), id)
+// 	if err != nil {
+// 		// Log error for debugging
+// 		fmt.Printf("Error: %v\n", err)
+// 		return ctx.SendStatus(util.GetHttpStatus(err))
+// 	}
 
-	return ctx.Status(200).JSON(data)
-}
+// 	return ctx.Status(200).JSON(data)
+// }
 
 // @Security BearerAuth
 // @Summary Insert Certification

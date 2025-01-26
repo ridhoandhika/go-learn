@@ -19,3 +19,23 @@ type UserRegisterReq struct {
 type UserRegisterResp struct {
 	Message string `json:"message"`
 }
+
+type UserEducationResp struct {
+	Education []Education `json:"educations"`
+}
+
+type UserWorkExperienceResp struct {
+	WorkExperience []WorkExperience `json:"work_experiences"`
+}
+
+type UserSkillResp struct {
+	Skill []Skill `json:"skills"`
+}
+
+type UserPersonalInformationResp struct {
+	PersonalInformation PersonalInformationResp `json:"personal_information"`
+}
+
+type UserCertificationResp struct {
+	Certification []Certification `json:"certifications"`
+}

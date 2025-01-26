@@ -17,31 +17,31 @@ func Skill(app *fiber.Group, skillService domain.SkillService, authMid fiber.Han
 	handler := skillApi{
 		skillService: skillService,
 	}
-	app.Get("skill/:userId", authMid, handler.FindByUserId)
+	// app.Get("skill/:userId", authMid, handler.FindByUserId)
 	app.Post("skill", authMid, handler.Insert)
 	app.Put("skill/:id", authMid, handler.Update)
 }
 
-// @Security BearerAuth
-// @Summary Get Skill
-// @Tags skill
-// @Accept json
-// @Produce json
-// @Param userId path string true "User ID"
-// @Success 200 {object} dto.BaseResp{output_schema=dto.SkillsResp{skills=[]dto.Skill{}}} "Skill details successfully retrieved"
-// @Failure 400 {object} dto.ErrorSchema "Bad Request"
-// @Router /api/skill/{userId} [get]
-func (a skillApi) FindByUserId(ctx *fiber.Ctx) error {
-	id := ctx.Params("userId")
-	data, err := a.skillService.FindByUserId(ctx.Context(), id)
-	if err != nil {
-		// Log error for debugging
-		fmt.Printf("Error: %v\n", err)
-		return ctx.SendStatus(util.GetHttpStatus(err))
-	}
+// // @Security BearerAuth
+// // @Summary Get Skill
+// // @Tags skill
+// // @Accept json
+// // @Produce json
+// // @Param userId path string true "User ID"
+// // @Success 200 {object} dto.BaseResp{output_schema=dto.SkillsResp{skills=[]dto.Skill{}}} "Skill details successfully retrieved"
+// // @Failure 400 {object} dto.ErrorSchema "Bad Request"
+// // @Router /api/skill/{userId} [get]
+// func (a skillApi) FindByUserId(ctx *fiber.Ctx) error {
+// 	id := ctx.Params("userId")
+// 	data, err := a.skillService.FindByUserId(ctx.Context(), id)
+// 	if err != nil {
+// 		// Log error for debugging
+// 		fmt.Printf("Error: %v\n", err)
+// 		return ctx.SendStatus(util.GetHttpStatus(err))
+// 	}
 
-	return ctx.Status(200).JSON(data)
-}
+// 	return ctx.Status(200).JSON(data)
+// }
 
 // @Security BearerAuth
 // @Summary Insert Skill

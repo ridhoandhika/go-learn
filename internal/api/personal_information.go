@@ -17,31 +17,31 @@ func PersonalInformation(app *fiber.Group, personalInformationService domain.Per
 	handler := personalInformationhApi{
 		personalInformationService: personalInformationService,
 	}
-	app.Get("personal-information/:id", authMid, handler.FindByID)
+	// app.Get("personal-information/:id", authMid, handler.FindByID)
 	app.Put("personal-information/:id", authMid, handler.Update)
 	app.Post("personal-information", authMid, handler.Insert)
 }
 
-// @Security BearerAuth
-// @Summary Get Personal Information
-// @Tags personal-information
-// @Accept json
-// @Produce json
-// @Param id path string true "Personal Information ID"
-// @Success 200 {object} dto.BaseResp{output_schema=dto.PersonalInformationResp} "Personal Information Details"
-// @Failure 400 {object} dto.ErrorSchema "Invalid Request"
-// @Failure 401 {object} dto.ErrorSchema "Authentication Failed"
-// @Failure 404 {object} dto.ErrorSchema "User Not Found"
-// @Router /api/personal-information/{id} [get]
-func (a personalInformationhApi) FindByID(ctx *fiber.Ctx) error {
-	id := ctx.Params("id")
-	data, err := a.personalInformationService.FindByIDPeronalInfo(ctx.Context(), id)
-	if err != nil {
-		return ctx.SendStatus(util.GetHttpStatus(err))
-	}
+// // @Security BearerAuth
+// // @Summary Get Personal Information
+// // @Tags personal-information
+// // @Accept json
+// // @Produce json
+// // @Param id path string true "Personal Information ID"
+// // @Success 200 {object} dto.BaseResp{output_schema=dto.PersonalInformationResp} "Personal Information Details"
+// // @Failure 400 {object} dto.ErrorSchema "Invalid Request"
+// // @Failure 401 {object} dto.ErrorSchema "Authentication Failed"
+// // @Failure 404 {object} dto.ErrorSchema "User Not Found"
+// // @Router /api/personal-information/{id} [get]
+// func (a personalInformationhApi) FindByID(ctx *fiber.Ctx) error {
+// 	id := ctx.Params("id")
+// 	data, err := a.personalInformationService.FindByIDPeronalInfo(ctx.Context(), id)
+// 	if err != nil {
+// 		return ctx.SendStatus(util.GetHttpStatus(err))
+// 	}
 
-	return ctx.Status(200).JSON(data)
-}
+// 	return ctx.Status(200).JSON(data)
+// }
 
 // @Security BearerAuth
 // @Summary Insert Personal Information

@@ -257,75 +257,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/certification/{userId}": {
-            "get": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "certification"
-                ],
-                "summary": "Get Certification",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "User ID",
-                        "name": "userId",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Certification details successfully retrieved",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/dto.BaseResp"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "output_schema": {
-                                            "allOf": [
-                                                {
-                                                    "$ref": "#/definitions/dto.CertificationResp"
-                                                },
-                                                {
-                                                    "type": "object",
-                                                    "properties": {
-                                                        "certifications": {
-                                                            "type": "array",
-                                                            "items": {
-                                                                "$ref": "#/definitions/dto.Certification"
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            ]
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/dto.ErrorSchema"
-                        }
-                    }
-                }
-            }
-        },
         "/api/education": {
             "post": {
                 "security": [
@@ -421,75 +352,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/education/{userId}": {
-            "get": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "education"
-                ],
-                "summary": "Get Education",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "User ID",
-                        "name": "userId",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Education details successfully retrieved",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/dto.BaseResp"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "output_schema": {
-                                            "allOf": [
-                                                {
-                                                    "$ref": "#/definitions/dto.EducationResp"
-                                                },
-                                                {
-                                                    "type": "object",
-                                                    "properties": {
-                                                        "education": {
-                                                            "type": "array",
-                                                            "items": {
-                                                                "$ref": "#/definitions/dto.Education"
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            ]
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/dto.ErrorSchema"
-                        }
-                    }
-                }
-            }
-        },
         "/api/personal-information": {
             "post": {
                 "security": [
@@ -541,70 +403,6 @@ const docTemplate = `{
             }
         },
         "/api/personal-information/{id}": {
-            "get": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "personal-information"
-                ],
-                "summary": "Get Personal Information",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Personal Information ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Personal Information Details",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/dto.BaseResp"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "output_schema": {
-                                            "$ref": "#/definitions/dto.PersonalInformationResp"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid Request",
-                        "schema": {
-                            "$ref": "#/definitions/dto.ErrorSchema"
-                        }
-                    },
-                    "401": {
-                        "description": "Authentication Failed",
-                        "schema": {
-                            "$ref": "#/definitions/dto.ErrorSchema"
-                        }
-                    },
-                    "404": {
-                        "description": "User Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/dto.ErrorSchema"
-                        }
-                    }
-                }
-            },
             "put": {
                 "security": [
                     {
@@ -750,7 +548,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/skill/{userId}": {
+        "/api/user/{id}": {
             "get": {
                 "security": [
                     {
@@ -764,21 +562,105 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "skill"
+                    "user"
                 ],
-                "summary": "Get Skill",
+                "summary": "Get user by id",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "User ID",
-                        "name": "userId",
+                        "description": "user id",
+                        "name": "id",
                         "in": "path",
                         "required": true
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "Skill details successfully retrieved",
+                        "description": "User Details",
+                        "schema": {
+                            "$ref": "#/definitions/dto.BaseResp"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorSchema"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user/{id}/certification": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "Get certification by user id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "user id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Certification Details",
+                        "schema": {
+                            "$ref": "#/definitions/dto.BaseResp"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorSchema"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user/{id}/education": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "Get Education by user id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "user id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Education Details",
                         "schema": {
                             "allOf": [
                                 {
@@ -790,7 +672,118 @@ const docTemplate = `{
                                         "output_schema": {
                                             "allOf": [
                                                 {
-                                                    "$ref": "#/definitions/dto.SkillsResp"
+                                                    "$ref": "#/definitions/dto.UserEducationResp"
+                                                },
+                                                {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "educations": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "$ref": "#/definitions/dto.Education"
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorSchema"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user/{id}/personal-information": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "Get personal information by user id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "user id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Personal Information Details",
+                        "schema": {
+                            "$ref": "#/definitions/dto.BaseResp"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorSchema"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user/{id}/skill": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "Get skill by user id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "user id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Skill Details",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/dto.BaseResp"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "output_schema": {
+                                            "allOf": [
+                                                {
+                                                    "$ref": "#/definitions/dto.UserSkillResp"
                                                 },
                                                 {
                                                     "type": "object",
@@ -799,6 +792,75 @@ const docTemplate = `{
                                                             "type": "array",
                                                             "items": {
                                                                 "$ref": "#/definitions/dto.Skill"
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorSchema"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user/{id}/work-experience": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "Get work experience by user id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "user id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Work Experience Details",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/dto.BaseResp"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "output_schema": {
+                                            "allOf": [
+                                                {
+                                                    "$ref": "#/definitions/dto.UserWorkExperienceResp"
+                                                },
+                                                {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "work_experiences": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "$ref": "#/definitions/dto.WorkExperience"
                                                             }
                                                         }
                                                     }
@@ -919,81 +981,6 @@ const docTemplate = `{
                     }
                 }
             }
-        },
-        "/api/work-experience/{userId}": {
-            "get": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "work-experience"
-                ],
-                "summary": "Get Work Experience",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "User ID",
-                        "name": "userId",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Working Experiences",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/dto.BaseResp"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "output_schema": {
-                                            "allOf": [
-                                                {
-                                                    "$ref": "#/definitions/dto.WorkExperiencesResp"
-                                                },
-                                                {
-                                                    "type": "object",
-                                                    "properties": {
-                                                        "work_experience": {
-                                                            "type": "array",
-                                                            "items": {
-                                                                "$ref": "#/definitions/dto.WorkExperience"
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            ]
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/dto.ErrorSchema"
-                        }
-                    },
-                    "409": {
-                        "description": "Conflict",
-                        "schema": {
-                            "$ref": "#/definitions/dto.ErrorSchema"
-                        }
-                    }
-                }
-            }
         }
     },
     "definitions": {
@@ -1027,40 +1014,6 @@ const docTemplate = `{
                 }
             }
         },
-        "dto.Certification": {
-            "type": "object",
-            "properties": {
-                "body": {
-                    "type": "string"
-                },
-                "certification_id": {
-                    "type": "string"
-                },
-                "credential_id": {
-                    "type": "string"
-                },
-                "expiration_date": {
-                    "type": "string"
-                },
-                "issue_date": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                }
-            }
-        },
-        "dto.CertificationResp": {
-            "type": "object",
-            "properties": {
-                "certifications": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/dto.Certification"
-                    }
-                }
-            }
-        },
         "dto.Education": {
             "type": "object",
             "properties": {
@@ -1084,17 +1037,6 @@ const docTemplate = `{
                 },
                 "start_date": {
                     "type": "string"
-                }
-            }
-        },
-        "dto.EducationResp": {
-            "type": "object",
-            "properties": {
-                "education": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/dto.Education"
-                    }
                 }
             }
         },
@@ -1152,9 +1094,6 @@ const docTemplate = `{
                 "description": {
                     "type": "string"
                 },
-                "education_id": {
-                    "type": "string"
-                },
                 "end_date": {
                     "type": "string"
                 },
@@ -1210,9 +1149,6 @@ const docTemplate = `{
                 "name": {
                     "type": "string"
                 },
-                "skill_id": {
-                    "type": "string"
-                },
                 "user_id": {
                     "type": "string"
                 }
@@ -1241,38 +1177,6 @@ const docTemplate = `{
                 }
             }
         },
-        "dto.PersonalInformationResp": {
-            "type": "object",
-            "properties": {
-                "address": {
-                    "type": "string"
-                },
-                "date_of_birth": {
-                    "type": "string"
-                },
-                "email": {
-                    "type": "string"
-                },
-                "first_name": {
-                    "type": "string"
-                },
-                "last_name": {
-                    "type": "string"
-                },
-                "personal_info_id": {
-                    "type": "string"
-                },
-                "phone_number": {
-                    "type": "string"
-                },
-                "summary": {
-                    "type": "string"
-                },
-                "user_id": {
-                    "type": "string"
-                }
-            }
-        },
         "dto.Skill": {
             "type": "object",
             "properties": {
@@ -1284,17 +1188,6 @@ const docTemplate = `{
                 },
                 "skill_id": {
                     "type": "string"
-                }
-            }
-        },
-        "dto.SkillsResp": {
-            "type": "object",
-            "properties": {
-                "skills": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/dto.Skill"
-                    }
                 }
             }
         },
@@ -1398,6 +1291,17 @@ const docTemplate = `{
                 }
             }
         },
+        "dto.UserEducationResp": {
+            "type": "object",
+            "properties": {
+                "educations": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.Education"
+                    }
+                }
+            }
+        },
         "dto.UserRegisterReq": {
             "type": "object",
             "properties": {
@@ -1412,6 +1316,28 @@ const docTemplate = `{
                 },
                 "username": {
                     "type": "string"
+                }
+            }
+        },
+        "dto.UserSkillResp": {
+            "type": "object",
+            "properties": {
+                "skills": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.Skill"
+                    }
+                }
+            }
+        },
+        "dto.UserWorkExperienceResp": {
+            "type": "object",
+            "properties": {
+                "work_experiences": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.WorkExperience"
+                    }
                 }
             }
         },
@@ -1432,17 +1358,9 @@ const docTemplate = `{
                 },
                 "start_date": {
                     "type": "string"
-                }
-            }
-        },
-        "dto.WorkExperiencesResp": {
-            "type": "object",
-            "properties": {
-                "work_experience": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/dto.WorkExperience"
-                    }
+                },
+                "work_experience_id": {
+                    "type": "string"
                 }
             }
         }

@@ -17,31 +17,31 @@ func Education(app *fiber.Group, educationService domain.EducationService, authM
 	handler := educationApi{
 		educationService: educationService,
 	}
-	app.Get("education/:userId", authMid, handler.FindByUserId)
+	// app.Get("education/:userId", authMid, handler.FindByUserId)
 	app.Put("education/:id", authMid, handler.Update)
 	app.Post("education", authMid, handler.Insert)
 }
 
-// @Security BearerAuth
-// @Summary Get Education
-// @Tags education
-// @Accept json
-// @Produce json
-// @Param userId path string true "User ID"
-// @Success 200 {object} dto.BaseResp{output_schema=dto.EducationResp{education=[]dto.Education{}}} "Education details successfully retrieved"
-// @Failure 400 {object} dto.ErrorSchema "Bad Request"
-// @Router /api/education/{userId} [get]
-func (a educationApi) FindByUserId(ctx *fiber.Ctx) error {
-	id := ctx.Params("userId")
-	data, err := a.educationService.FindByUserId(ctx.Context(), id)
-	if err != nil {
-		// Log error for debugging
-		fmt.Printf("Error: %v\n", err)
-		return ctx.SendStatus(util.GetHttpStatus(err))
-	}
+// // @Security BearerAuth
+// // @Summary Get Education
+// // @Tags education
+// // @Accept json
+// // @Produce json
+// // @Param userId path string true "User ID"
+// // @Success 200 {object} dto.BaseResp{output_schema=dto.EducationResp{education=[]dto.Education{}}} "Education details successfully retrieved"
+// // @Failure 400 {object} dto.ErrorSchema "Bad Request"
+// // @Router /api/education/{userId} [get]
+// func (a educationApi) FindByUserId(ctx *fiber.Ctx) error {
+// 	id := ctx.Params("userId")
+// 	data, err := a.educationService.FindByUserId(ctx.Context(), id)
+// 	if err != nil {
+// 		// Log error for debugging
+// 		fmt.Printf("Error: %v\n", err)
+// 		return ctx.SendStatus(util.GetHttpStatus(err))
+// 	}
 
-	return ctx.Status(200).JSON(data)
-}
+// 	return ctx.Status(200).JSON(data)
+// }
 
 // @Security BearerAuth
 // @Summary Insert Education

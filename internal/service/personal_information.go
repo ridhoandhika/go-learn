@@ -39,7 +39,6 @@ func (u personalInformationService) FindByIDPeronalInfo(ctx context.Context, id 
 		},
 		OutputSchema: dto.PersonalInformationResp{
 			PersonalInfoID: data.PersonalInfoID,
-			UserID:         data.UserID,
 			FirstName:      data.FirstName,
 			LastName:       data.LastName,
 			PhoneNumber:    data.PhoneNumber,

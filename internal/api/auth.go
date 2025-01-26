@@ -10,12 +10,12 @@ import (
 )
 
 type authApi struct {
-	userService domain.UserService
+	authService domain.AuthService
 }
 
-func Auth(app *fiber.Group, userService domain.UserService, authMid fiber.Handler) {
+func Auth(app *fiber.Group, userService domain.AuthService, authMid fiber.Handler) {
 	handler := authApi{
-		userService: userService,
+		authService: userService,
 	}
 	// Menambahkan anotasi Swagger untuk login
 	app.Post("auth/login", handler.GenerateToken)
@@ -40,7 +40,7 @@ func (a authApi) GenerateToken(ctx *fiber.Ctx) error {
 		return ctx.SendStatus(400)
 	}
 
-	token, err := a.userService.Authenticate(ctx.Context(), req)
+	token, err := a.authService.Login(ctx.Context(), req)
 	if err != nil {
 		return ctx.SendStatus(util.GetHttpStatus(domain.ErrAuthFailed))
 	}
@@ -75,7 +75,7 @@ func (a authApi) ValidateToken(ctx *fiber.Ctx) error {
 	}
 
 	token := parts[1]
-	user, err := a.userService.ValidateToken(ctx.Context(), token)
+	user, err := a.authService.Refresh(ctx.Context(), token)
 	if err != nil {
 		// Jika token tidak valid atau error lain
 		return ctx.SendStatus(util.GetHttpStatus(domain.ErrAuthFailed))
@@ -116,7 +116,7 @@ func (a authApi) Register(ctx *fiber.Ctx) error {
 		})
 	}
 
-	user, err := a.userService.Register(ctx.Context(), req)
+	user, err := a.authService.Register(ctx.Context(), req)
 	if err != nil {
 		return ctx.SendStatus(util.GetHttpStatus(err))
 	}

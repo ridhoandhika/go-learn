@@ -2,6 +2,7 @@ package repository
 
 import (
 	"context"
+	"errors"
 	"ridhoandhika/backend-api/domain"
 	"ridhoandhika/backend-api/dto"
 
@@ -45,4 +46,69 @@ func (u userRepository) InsertUser(ctx context.Context, req dto.UserRegisterReq)
 	}
 
 	return nil, nil
+}
+
+func (u userRepository) UserWithEducation(ctx context.Context, userID uuid.UUID) (*domain.User, error) {
+	var user domain.User
+	// Cari user berdasarkan ID dan preload hanya data Education
+	if err := u.db.Preload("Education").First(&user, "id = ?", userID).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, errors.New("user not found")
+		}
+		return nil, err
+	}
+
+	return &user, nil
+}
+
+func (u userRepository) UserWithWorkExperience(ctx context.Context, userID uuid.UUID) (*domain.User, error) {
+	var user domain.User
+	// Cari user berdasarkan ID dan preload hanya data Education
+	if err := u.db.Preload("WorkExperience").First(&user, "id = ?", userID).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, errors.New("user not found")
+		}
+		return nil, err
+	}
+
+	return &user, nil
+}
+
+func (u userRepository) UserWithSkill(ctx context.Context, userID uuid.UUID) (*domain.User, error) {
+	var user domain.User
+	// Cari user berdasarkan ID dan preload hanya data Education
+	if err := u.db.Preload("Skill").First(&user, "id = ?", userID).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, errors.New("user not found")
+		}
+		return nil, err
+	}
+
+	return &user, nil
+}
+
+func (u userRepository) UserWithPersonalInformation(ctx context.Context, userID uuid.UUID) (*domain.User, error) {
+	var user domain.User
+	// Cari user berdasarkan ID dan preload hanya data Education
+	if err := u.db.Preload("PersonalInfo").First(&user, "id = ?", userID).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, errors.New("user not found")
+		}
+		return nil, err
+	}
+
+	return &user, nil
+}
+
+func (u userRepository) UserWithCertification(ctx context.Context, userID uuid.UUID) (*domain.User, error) {
+	var user domain.User
+	// Cari user berdasarkan ID dan preload hanya data Education
+	if err := u.db.Preload("Certification").First(&user, "id = ?", userID).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, errors.New("user not found")
+		}
+		return nil, err
+	}
+
+	return &user, nil
 }

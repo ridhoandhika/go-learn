@@ -8,7 +8,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-func Authenticate(userService domain.UserService) fiber.Handler {
+func Authenticate(authService domain.AuthService) fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
 		authHeader := ctx.Get("Authorization")
 		token := strings.ReplaceAll(authHeader, "Bearer ", "")
@@ -22,7 +22,7 @@ func Authenticate(userService domain.UserService) fiber.Handler {
 			return ctx.SendStatus(util.GetHttpStatus(domain.ErrAuthFailed))
 		}
 
-		user, err := userService.ValidateToken(ctx.Context(), token)
+		user, err := authService.Refresh(ctx.Context(), token)
 		if err != nil {
 			return ctx.SendStatus(util.GetHttpStatus(domain.ErrAuthFailed))
 		}

@@ -33,10 +33,18 @@ type UserRepository interface {
 	FindByID(ctx context.Context, id uuid.UUID) (User, error)
 	FindByUsername(ctx context.Context, username string) (User, error)
 	InsertUser(ctx context.Context, req dto.UserRegisterReq) (interface{}, error)
+	UserWithEducation(ctx context.Context, userID uuid.UUID) (*User, error)
+	UserWithWorkExperience(ctx context.Context, userID uuid.UUID) (*User, error)
+	UserWithSkill(ctx context.Context, userID uuid.UUID) (*User, error)
+	UserWithPersonalInformation(ctx context.Context, userID uuid.UUID) (*User, error)
+	UserWithCertification(ctx context.Context, userID uuid.UUID) (*User, error)
 }
 
 type UserService interface {
-	Authenticate(ctx context.Context, req dto.AuthReq) (dto.AuthResp, error)
-	ValidateToken(ctx context.Context, token string) (dto.AuthResp, error)
-	Register(ctx context.Context, req dto.UserRegisterReq) (dto.BaseResp, error)
+	GetUser(ctx context.Context, userID string) (dto.BaseResp, error)
+	GetEducation(ctx context.Context, userID string) (dto.BaseResp, error)
+	GetPersonalInformation(ctx context.Context, userID string) (dto.BaseResp, error)
+	GetWorkExperience(ctx context.Context, userID string) (dto.BaseResp, error)
+	GetSkill(ctx context.Context, userID string) (dto.BaseResp, error)
+	GetCertification(ctx context.Context, userID string) (dto.BaseResp, error)
 }

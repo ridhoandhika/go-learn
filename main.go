@@ -29,6 +29,7 @@ func main() {
 	skillRepository := repository.Skill(dbConnection)
 	certificationRepository := repository.Certification(dbConnection)
 
+	authService := service.Auth(userRepository)
 	userService := service.User(userRepository)
 	personalInfoService := service.PersonalInformation(personalInfoRepository)
 	workExperienceService := service.WorkExperience(workExperienceRepository)
@@ -36,7 +37,7 @@ func main() {
 	skillService := service.Skill(skillRepository)
 	certificationService := service.Certification(certificationRepository)
 
-	authMiddleware := middleware.Authenticate(userService)
+	authMiddleware := middleware.Authenticate(authService)
 
 	app := fiber.New()
 
@@ -66,7 +67,8 @@ func main() {
 	apiRoutes := app.Group("api")
 	// route
 
-	api.Auth(apiRoutes.(*fiber.Group), userService, authMiddleware)
+	api.Auth(apiRoutes.(*fiber.Group), authService, authMiddleware)
+	api.User(apiRoutes.(*fiber.Group), userService, authMiddleware)
 	api.PersonalInformation(apiRoutes.(*fiber.Group), personalInfoService, authMiddleware)
 	api.WorkExperience(apiRoutes.(*fiber.Group), workExperienceService, authMiddleware)
 	api.Education(apiRoutes.(*fiber.Group), educationService, authMiddleware)

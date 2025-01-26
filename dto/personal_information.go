@@ -27,7 +27,6 @@ type UpdatePersonalInformationReq struct {
 
 type PersonalInformationResp struct {
 	PersonalInfoID uuid.UUID `json:"personal_info_id"`
-	UserID         uuid.UUID `json:"user_id"`
 	FirstName      string    `json:"first_name"`
 	LastName       string    `json:"last_name"`
 	PhoneNumber    string    `json:"phone_number"`
