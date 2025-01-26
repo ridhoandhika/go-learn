@@ -5,10 +5,9 @@ import (
 )
 
 type InsertSkillReq struct {
-	SkillID uuid.UUID `json:"skill_id"`
-	UserID  uuid.UUID `json:"user_id"`
-	Name    string    `json:"name"`
-	Level   string    `json:"level"`
+	UserID uuid.UUID `json:"user_id"`
+	Name   string    `json:"name"`
+	Level  string    `json:"level"`
 }
 
 type UpdateSkillReq struct {

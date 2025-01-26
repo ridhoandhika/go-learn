@@ -3,7 +3,6 @@ package dto
 import "github.com/google/uuid"
 
 type InsertEducationReq struct {
-	EducationID  uuid.UUID `json:"education_id"`
 	UserID       uuid.UUID `json:"user_id"`
 	Degree       string    `json:"degree"`
 	SchoolName   string    `json:"school_name"`
