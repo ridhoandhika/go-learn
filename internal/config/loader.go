@@ -1,22 +1,29 @@
 package config
 
+import (
+	"log"
+	"os"
+
+	"github.com/joho/godotenv"
+)
+
 func Get() *Config {
-	// err := godotenv.Load()
-	// if err != nil {
-	// 	log.Fatalf("err when load env %s", err.Error())
-	// }
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatalf("err when load env %s", err.Error())
+	}
 
 	return &Config{
 		Server{
-			Host: "goservice", //os.Getenv("SERVER_HOST"),
-			Port: "8080",      //os.Getenv("SERVER_PORT"),
+			Host: os.Getenv("SERVER_HOST"),
+			Port: os.Getenv("SERVER_PORT"),
 		},
 		Database{
-			Host:     "postgresql", //os.Getenv("DATABASE_HOST"),
-			Port:     "5432",       //os.Getenv("DATABASE_PORT"),
-			User:     "postgres",   //os.Getenv("DATABASE_USER"),
-			Password: "postgres",   //os.Getenv("DATABASE_PASSWORD"),
-			Name:     "postgres",   //os.Getenv("DATABASE_NAME"),
+			Host:     os.Getenv("DATABASE_HOST"),
+			Port:     os.Getenv("DATABASE_PORT"),
+			User:     os.Getenv("DATABASE_USER"),
+			Password: os.Getenv("DATABASE_PASSWORD"),
+			Name:     os.Getenv("DATABASE_NAME"),
 		},
 	}
 }
