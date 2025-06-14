@@ -65,3 +65,13 @@ func (u workExperienceRepository) Update(ctx context.Context, workExperienceId u
 
 	return true, nil
 }
+
+func (u workExperienceRepository) Delete(ctx context.Context, workExperienceId uuid.UUID) (bool, error) {
+	err := u.db.WithContext(ctx).
+		Where("work_experience_id = ?", workExperienceId).
+		Delete(&domain.WorkExperience{}).Error
+	if err != nil {
+		return false, err
+	}
+	return true, nil
+}

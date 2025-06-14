@@ -34,7 +34,7 @@ func (u authService) Login(ctx context.Context, req dto.AuthReq) (dto.AuthResp, 
 	}
 
 	// generate jwt
-	token, err := util.GenerateTokenJWT(req.Username)
+	token, err := util.GenerateTokenJWT(req.Username, user.ID.String())
 	if err != nil {
 		return dto.AuthResp{}, errors.New("401")
 	}
@@ -64,7 +64,13 @@ func (u authService) Refresh(ctx context.Context, token string) (dto.AuthResp, e
 		return dto.AuthResp{}, errors.New("invalid")
 	}
 
-	newToken, err := util.GenerateTokenJWT(username)
+	// Mengambil nilai 'username' dari klaim
+	userId, ok := claims["user_id"].(string)
+	if !ok {
+		return dto.AuthResp{}, errors.New("invalid")
+	}
+
+	newToken, err := util.GenerateTokenJWT(username, userId)
 	if err != nil {
 		return dto.AuthResp{}, errors.New("invalid")
 	}

@@ -350,6 +350,46 @@ const docTemplate = `{
                         }
                     }
                 }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "education"
+                ],
+                "summary": "Delete Education by Id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Education ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Education resp",
+                        "schema": {
+                            "$ref": "#/definitions/dto.BaseResp"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorSchema"
+                        }
+                    }
+                }
             }
         },
         "/api/personal-information": {
@@ -980,6 +1020,46 @@ const docTemplate = `{
                         }
                     }
                 }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "work-experience"
+                ],
+                "summary": "Delete Work Experience by Id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Work Experience ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Work Experience resp",
+                        "schema": {
+                            "$ref": "#/definitions/dto.BaseResp"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorSchema"
+                        }
+                    }
+                }
             }
         }
     },
@@ -1144,7 +1224,12 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "level": {
-                    "type": "string"
+                    "type": "string",
+                    "enum": [
+                        "Beginner",
+                        "Intermediate",
+                        "Advanced"
+                    ]
                 },
                 "name": {
                     "type": "string"

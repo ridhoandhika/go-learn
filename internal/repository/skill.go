@@ -2,6 +2,7 @@ package repository
 
 import (
 	"context"
+	"fmt"
 	"ridhoandhika/backend-api/domain"
 	"ridhoandhika/backend-api/dto"
 
@@ -22,6 +23,7 @@ func Skill(con *gorm.DB) domain.SkillRepository {
 func (r skillRepository) FindByUserId(ctx context.Context, userId uuid.UUID) ([]domain.Skill, error) {
 	var skills []domain.Skill
 	err := r.db.WithContext(ctx).Where("user_id = ?", userId).Find(&skills).Error
+	fmt.Println("skil", skills)
 	return skills, err
 }
 

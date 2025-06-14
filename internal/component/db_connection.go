@@ -13,17 +13,13 @@ import (
 
 func GetDatabaseConnection(cnf *config.Config) *gorm.DB {
 	dsn := fmt.Sprintf(
-		"host=%s "+
-			"port=%s "+
-			"user=%s "+
-			"password=%s "+
-			"dbname=%s "+
-			"sslmode=disable",
-		cnf.Database.Host,
-		cnf.Database.Port,
-		cnf.Database.User,
-		cnf.Database.Password,
-		cnf.Database.Name)
+		"host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
+		cnf.Database.Host,     // localhost
+		cnf.Database.Port,     // 5432
+		cnf.Database.User,     // postgres
+		cnf.Database.Password, // xxxxx
+		cnf.Database.Name,     // nama_database
+	)
 
 	db, _ := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 

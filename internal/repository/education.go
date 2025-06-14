@@ -70,3 +70,13 @@ func (u educationRepository) Update(ctx context.Context, educationId uuid.UUID, 
 
 	return true, nil
 }
+
+func (u educationRepository) Delete(ctx context.Context, educationId uuid.UUID) (bool, error) {
+	err := u.db.WithContext(ctx).
+		Where("education_id = ?", educationId).
+		Delete(&domain.Education{}).Error
+	if err != nil {
+		return false, err
+	}
+	return true, nil
+}

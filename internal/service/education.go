@@ -97,3 +97,17 @@ func (w educationService) Update(ctx context.Context, educationId string, req dt
 
 	return util.ErrorResponse("200", "Sukses", "Success"), nil
 }
+
+func (w educationService) Delete(ctx context.Context, educationId string) (dto.BaseResp, error) {
+	parsedEducationId, err := uuid.Parse(educationId)
+	if err != nil {
+		return util.ErrorResponse("400", "Permintaan tidak valid", "Bad request"), nil
+	}
+
+	_, err = w.educationRepository.Delete(ctx, parsedEducationId)
+	if err != nil {
+		return util.ErrorResponse("400", "Gagal", "Failed"), nil
+	}
+
+	return util.ErrorResponse("200", "Sukses", "Success"), nil
+}

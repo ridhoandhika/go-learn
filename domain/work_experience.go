@@ -30,10 +30,12 @@ type WorkExperienceRepository interface {
 	FindByUserId(ctx context.Context, id uuid.UUID) ([]WorkExperience, error)
 	Insert(ctx context.Context, req dto.InsertWorkExperienceReq) (bool, error)
 	Update(ctx context.Context, id uuid.UUID, req dto.UpdateWorkExperienceReq) (bool, error)
+	Delete(ctx context.Context, id uuid.UUID) (bool, error)
 }
 
 type WorkExperienceService interface {
 	FindByUserId(ctx context.Context, id string) (dto.BaseResp, error)
 	Insert(ctx context.Context, req dto.InsertWorkExperienceReq) (dto.BaseResp, error)
 	Update(ctx context.Context, id string, req dto.UpdateWorkExperienceReq) (dto.BaseResp, error)
+	Delete(ctx context.Context, id string) (dto.BaseResp, error)
 }

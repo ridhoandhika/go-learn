@@ -35,8 +35,8 @@ func (s skillService) FindByUserId(ctx context.Context, userId string) (dto.Base
 					En: "Success",
 				},
 			},
-			OutputSchema: dto.EducationResp{
-				Education: []dto.Education{},
+			OutputSchema: dto.SkillsResp{
+				Skills: []dto.Skill{},
 			},
 		}, nil
 	}

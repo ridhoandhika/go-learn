@@ -20,6 +20,7 @@ func Education(app *fiber.Group, educationService domain.EducationService, authM
 	// app.Get("education/:userId", authMid, handler.FindByUserId)
 	app.Put("education/:id", authMid, handler.Update)
 	app.Post("education", authMid, handler.Insert)
+	app.Delete("education/:id", authMid, handler.Delete)
 }
 
 // // @Security BearerAuth
@@ -85,6 +86,30 @@ func (a educationApi) Update(ctx *fiber.Ctx) error {
 	}
 
 	data, err := a.educationService.Update(ctx.Context(), id, req)
+
+	if err != nil {
+		return ctx.SendStatus(util.GetHttpStatus(err))
+	}
+
+	return ctx.Status(200).JSON(data)
+}
+
+// @Security BearerAuth
+// @Summary Delete Education by Id
+// @Tags education
+// @Accept json
+// @Produce json
+// @Param id path string true "Education ID"
+// @Success 200 {object} dto.BaseResp "Education resp"
+// @Failure 400 {object} dto.ErrorSchema "Bad Request"
+// @Router /api/education/{id} [delete]
+func (a educationApi) Delete(ctx *fiber.Ctx) error {
+	id := ctx.Params("id")
+	if id == "" {
+		return ctx.Status(200).JSON(util.ErrorResponse("400", "Permintaan Tidak Valid", "Bad Request"))
+	}
+
+	data, err := a.educationService.Delete(ctx.Context(), id)
 
 	if err != nil {
 		return ctx.SendStatus(util.GetHttpStatus(err))

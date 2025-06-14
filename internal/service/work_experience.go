@@ -93,3 +93,17 @@ func (w workExperienceService) Update(ctx context.Context, workExperienceId stri
 
 	return util.ErrorResponse("200", "Sukses", "Success"), nil
 }
+
+func (w workExperienceService) Delete(ctx context.Context, workExperienceId string) (dto.BaseResp, error) {
+	parsedEducationId, err := uuid.Parse(workExperienceId)
+	if err != nil {
+		return util.ErrorResponse("400", "Permintaan tidak valid", "Bad request"), nil
+	}
+
+	_, err = w.workExperienceRepository.Delete(ctx, parsedEducationId)
+	if err != nil {
+		return util.ErrorResponse("400", "Gagal", "Failed"), nil
+	}
+
+	return util.ErrorResponse("200", "Sukses", "Success"), nil
+}

@@ -9,6 +9,8 @@ import (
 	"gorm.io/gorm"
 )
 
+// Level defines skill proficiency levels
+// @enum Level
 type Level string
 
 const (

@@ -19,6 +19,7 @@ func WorkExperience(app *fiber.Group, workExperienceService domain.WorkExperienc
 	// app.Get("work-experience/:userId", authMid, handler.FindByUserId)
 	app.Put("work-experience/:id", authMid, handler.Update)
 	app.Post("work-experience", authMid, handler.Insert)
+	app.Delete("work-experience/:id", authMid, handler.Delete)
 }
 
 // @Security BearerAuth
@@ -84,6 +85,30 @@ func (a workExperienceApi) Update(ctx *fiber.Ctx) error {
 	}
 
 	data, err := a.workExperienceService.Update(ctx.Context(), id, req)
+
+	if err != nil {
+		return ctx.SendStatus(util.GetHttpStatus(err))
+	}
+
+	return ctx.Status(200).JSON(data)
+}
+
+// @Security BearerAuth
+// @Summary Delete Work Experience by Id
+// @Tags work-experience
+// @Accept json
+// @Produce json
+// @Param id path string true "Work Experience ID"
+// @Success 200 {object} dto.BaseResp "Work Experience resp"
+// @Failure 400 {object} dto.ErrorSchema "Bad Request"
+// @Router /api/work-experience/{id} [delete]
+func (a workExperienceApi) Delete(ctx *fiber.Ctx) error {
+	id := ctx.Params("id")
+	if id == "" {
+		return ctx.Status(200).JSON(util.ErrorResponse("400", "Permintaan Tidak Valid", "Bad Request"))
+	}
+
+	data, err := a.workExperienceService.Delete(ctx.Context(), id)
 
 	if err != nil {
 		return ctx.SendStatus(util.GetHttpStatus(err))

@@ -103,6 +103,10 @@ definitions:
   dto.InsertSkillReq:
     properties:
       level:
+        enum:
+        - Beginner
+        - Intermediate
+        - Advanced
         type: string
       name:
         type: string
@@ -423,6 +427,31 @@ paths:
       tags:
       - education
   /api/education/{id}:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: Education ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Education resp
+          schema:
+            $ref: '#/definitions/dto.BaseResp'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorSchema'
+      security:
+      - BearerAuth: []
+      summary: Delete Education by Id
+      tags:
+      - education
     put:
       consumes:
       - application/json
@@ -800,6 +829,31 @@ paths:
       tags:
       - work-experience
   /api/work-experience/{id}:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: Work Experience ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Work Experience resp
+          schema:
+            $ref: '#/definitions/dto.BaseResp'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorSchema'
+      security:
+      - BearerAuth: []
+      summary: Delete Work Experience by Id
+      tags:
+      - work-experience
     put:
       consumes:
       - application/json

@@ -110,7 +110,7 @@ func (a userApi) GetWorkExperience(ctx *fiber.Ctx) error {
 // @Router /api/user/{id}/skill [get]
 func (a userApi) GetSkill(ctx *fiber.Ctx) error {
 	id := ctx.Params("id")
-	data, err := a.userService.GetEducation(ctx.Context(), id)
+	data, err := a.userService.GetSkill(ctx.Context(), id)
 	if err != nil {
 		return ctx.Status(200).JSON(util.ErrorResponse("400", "Permintaan Tidak Valid", "Bad Request"))
 	}

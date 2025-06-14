@@ -7,7 +7,7 @@ import (
 type InsertSkillReq struct {
 	UserID uuid.UUID `json:"user_id"`
 	Name   string    `json:"name"`
-	Level  string    `json:"level"`
+	Level  string    `json:"level" enums:"Beginner,Intermediate,Advanced" validate:"oneof=Beginner Intermediate Advanced"`
 }
 
 type UpdateSkillReq struct {

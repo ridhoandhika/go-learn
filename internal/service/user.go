@@ -175,7 +175,7 @@ func (u userService) GetWorkExperience(ctx context.Context, userID string) (dto.
 
 func (u userService) GetSkill(ctx context.Context, userID string) (dto.BaseResp, error) {
 	parsedUserID, _ := uuid.Parse(userID)
-	user, err := u.userRepository.UserWithWorkExperience(ctx, parsedUserID)
+	user, err := u.userRepository.UserWithSkill(ctx, parsedUserID)
 	if err != nil {
 		return dto.BaseResp{
 			ErrorSchema: dto.ErrorSchema{
