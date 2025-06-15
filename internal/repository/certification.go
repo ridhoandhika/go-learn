@@ -4,13 +4,10 @@ import (
 	"context"
 	"ridhoandhika/backend-api/domain"
 	"ridhoandhika/backend-api/dto"
-	"ridhoandhika/backend-api/internal/util"
 
 	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
-
-const formatDate = "2006-01-02"
 
 type certificationRepository struct {
 	db *gorm.DB
@@ -28,31 +25,18 @@ func (r certificationRepository) FindByUserId(ctx context.Context, userId uuid.U
 	return certification, err
 }
 
-func (r certificationRepository) Insert(ctx context.Context, req dto.InsertCertificationReq) (bool, error) {
-
-	// Parsing IssueDate menggunakan utilitas ParseDate
-	issueDate, err := util.ParseDate(req.IssueDate, formatDate)
-	if err != nil {
-		return false, err
-	}
-
-	// Parsing ExpirationDate menggunakan utilitas ParseDate
-	expirationDate, err := util.ParseDate(req.ExpirationDate, formatDate)
-	if err != nil {
-		return false, err
-	}
-
+func (r certificationRepository) Insert(ctx context.Context, req dto.InsertCertificationParsedReq) (bool, error) {
 	certification := domain.Certification{
 		CertificationID: uuid.New(),
 		UserID:          req.UserID,
 		Name:            req.Name,
 		Body:            req.Body,
 		CredentialID:    req.CredentialID,
-		IssueDate:       issueDate,
-		ExpirationDate:  expirationDate,
+		IssueDate:       req.IssueDate,
+		ExpirationDate:  req.ExpirationDate,
 	}
 
-	err = r.db.WithContext(ctx).Create(&certification).Error
+	err := r.db.WithContext(ctx).Create(&certification).Error
 	if err != nil {
 		return false, err
 	}
@@ -60,31 +44,19 @@ func (r certificationRepository) Insert(ctx context.Context, req dto.InsertCerti
 	return true, nil
 }
 
-func (r certificationRepository) Update(ctx context.Context, certificationId uuid.UUID, req dto.UpdateCertificationReq) (bool, error) {
+func (r certificationRepository) Update(ctx context.Context, certificationId uuid.UUID, req dto.UpdateCertificationParsedReq) (bool, error) {
 	var certification domain.Certification
 	err := r.db.WithContext(ctx).Where("certification_id = ?", certificationId).First(&certification).Error
 	if err != nil {
 		return false, err
 	}
 
-	// Parsing IssueDate menggunakan utilitas ParseDate
-	issueDate, err := util.ParseDate(req.IssueDate, formatDate)
-	if err != nil {
-		return false, err
-	}
-
-	// Parsing ExpirationDate menggunakan utilitas ParseDate
-	expirationDate, err := util.ParseDate(req.ExpirationDate, formatDate)
-	if err != nil {
-		return false, err
-	}
-
 	err = r.db.WithContext(ctx).Model(&certification).Updates(domain.Certification{
-		CertificationID: uuid.New(),
-		Name:            req.Name,
-		Body:            req.Body,
-		IssueDate:       issueDate,
-		ExpirationDate:  expirationDate,
+		Name:           req.Name,
+		Body:           req.Body,
+		CredentialID:   req.CredentialID,
+		IssueDate:      req.IssueDate,
+		ExpirationDate: req.ExpirationDate,
 	}).Error
 
 	if err != nil {
@@ -94,9 +66,9 @@ func (r certificationRepository) Update(ctx context.Context, certificationId uui
 	return true, nil
 }
 
-func (r certificationRepository) Delete(ctx context.Context, skillId uuid.UUID) (bool, error) {
+func (r certificationRepository) Delete(ctx context.Context, certificationId uuid.UUID) (bool, error) {
 	err := r.db.WithContext(ctx).
-		Where("certification_id = ?", skillId).
+		Where("certification_id = ?", certificationId).
 		Delete(&domain.Certification{}).Error
 	if err != nil {
 		return false, err

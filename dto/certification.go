@@ -1,6 +1,8 @@
 package dto
 
 import (
+	"time"
+
 	"github.com/google/uuid"
 )
 
@@ -13,12 +15,29 @@ type InsertCertificationReq struct {
 	ExpirationDate string    `json:"expiration_date"`
 }
 
+type InsertCertificationParsedReq struct {
+	UserID         uuid.UUID  `json:"user_id"`
+	Name           string     `json:"name"`
+	Body           string     `json:"body"`
+	CredentialID   string     `json:"credential_id"`
+	IssueDate      *time.Time `json:"issue_date"`
+	ExpirationDate *time.Time `json:"expiration_date"`
+}
+
 type UpdateCertificationReq struct {
 	Name           string `json:"name"`
 	Body           string `json:"body"`
 	CredentialID   string `json:"credential_id"`
 	IssueDate      string `json:"issue_date"`
 	ExpirationDate string `json:"expiration_date"`
+}
+
+type UpdateCertificationParsedReq struct {
+	Name           string     `json:"name"`
+	Body           string     `json:"body"`
+	CredentialID   string     `json:"credential_id"`
+	IssueDate      *time.Time `json:"issue_date"`
+	ExpirationDate *time.Time `json:"expiration_date"`
 }
 
 type CertificationResp struct {

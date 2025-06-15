@@ -9,6 +9,8 @@ import (
 	"github.com/google/uuid"
 )
 
+const formatDate = "2006-01-02"
+
 type certificationService struct {
 	certificationRepository domain.CertificationRepository
 }
@@ -89,8 +91,30 @@ func (s certificationService) FindByUserId(ctx context.Context, userId string) (
 }
 
 func (s certificationService) Insert(ctx context.Context, req dto.InsertCertificationReq) (dto.BaseResp, error) {
-	_, err := s.certificationRepository.Insert(ctx, req)
+	// Parsing IssueDate menggunakan utilitas ParseDate
+	issueDate, err := util.ParseDate(req.IssueDate, formatDate)
 	if err != nil {
+		return util.ErrorResponse("400", "Issue Date tidak valid, format yyyy-mm-dd", "Invalid Issue Date, format yyyy-mm-dd"), nil
+	}
+
+	// Parsing ExpirationDate menggunakan utilitas ParseDate
+	expirationDate, err := util.ParseDate(req.ExpirationDate, formatDate)
+	if err != nil {
+		return util.ErrorResponse("400", "Expiration Date tidak valid, format yyyy-mm-dd", "Invalid Expiration Date, format yyyy-mm-dd"), nil
+	}
+
+	parsedReq := dto.InsertCertificationParsedReq{
+		Name:           req.Name,
+		Body:           req.Body,
+		CredentialID:   req.CredentialID,
+		IssueDate:      issueDate,
+		ExpirationDate: expirationDate,
+		UserID:         req.UserID,
+	}
+
+	// Simpan ke repository
+	sucess, err := s.certificationRepository.Insert(ctx, parsedReq)
+	if err != nil || !sucess {
 		return util.ErrorResponse("400", "Permintaan Tidak Valid", "Bad Request"), err
 	}
 
@@ -98,12 +122,32 @@ func (s certificationService) Insert(ctx context.Context, req dto.InsertCertific
 }
 
 func (s certificationService) Update(ctx context.Context, certificationId string, req dto.UpdateCertificationReq) (dto.BaseResp, error) {
-	parsedSkillId, err := uuid.Parse(certificationId)
+	parsedCertificationId, err := uuid.Parse(certificationId)
 	if err != nil {
 		return util.ErrorResponse("400", "Permintaan tidak valid", "Bad request"), nil
 	}
 
-	_, err = s.certificationRepository.Update(ctx, parsedSkillId, req)
+	// Parsing IssueDate menggunakan utilitas ParseDate
+	issueDate, err := util.ParseDate(req.IssueDate, formatDate)
+	if err != nil {
+		return util.ErrorResponse("400", "Tanggal tidak valid, format yyyy-mm-dd", "Invalid Issue Date, format yyyy-mm-dd"), nil
+	}
+
+	// Parsing ExpirationDate menggunakan utilitas ParseDate
+	expirationDate, err := util.ParseDate(req.ExpirationDate, formatDate)
+	if err != nil {
+		return util.ErrorResponse("400", "Tanggal tidak valid, format yyyy-mm-dd", "Invalid Expiration Date, format yyyy-mm-dd"), nil
+	}
+
+	parsedReq := dto.UpdateCertificationParsedReq{
+		Name:           req.Name,
+		Body:           req.Body,
+		CredentialID:   req.CredentialID,
+		IssueDate:      issueDate,
+		ExpirationDate: expirationDate,
+	}
+
+	_, err = s.certificationRepository.Update(ctx, parsedCertificationId, parsedReq)
 	if err != nil {
 		return util.ErrorResponse("400", "Gagal", "Failed"), nil
 	}

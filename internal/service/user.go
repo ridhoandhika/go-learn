@@ -255,7 +255,7 @@ func (u userService) GetCertification(ctx context.Context, userID string) (dto.B
 			CertificationID: data.CertificationID,
 			Name:            data.Name,
 			Body:            data.Body,
-			CredentialID:    data.Body,
+			CredentialID:    data.CredentialID,
 			IssueDate:       issueDateStr,
 			ExpirationDate:  expirationDateStr,
 		})

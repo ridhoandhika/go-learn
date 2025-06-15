@@ -28,8 +28,8 @@ func (Certification) TableName() string {
 
 type CertificationRepository interface {
 	FindByUserId(ctx context.Context, id uuid.UUID) ([]Certification, error)
-	Insert(ctx context.Context, req dto.InsertCertificationReq) (bool, error)
-	Update(ctx context.Context, id uuid.UUID, req dto.UpdateCertificationReq) (bool, error)
+	Insert(ctx context.Context, req dto.InsertCertificationParsedReq) (bool, error)
+	Update(ctx context.Context, id uuid.UUID, req dto.UpdateCertificationParsedReq) (bool, error)
 	Delete(ctx context.Context, id uuid.UUID) (bool, error)
 }
 
