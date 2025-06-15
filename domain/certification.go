@@ -30,10 +30,12 @@ type CertificationRepository interface {
 	FindByUserId(ctx context.Context, id uuid.UUID) ([]Certification, error)
 	Insert(ctx context.Context, req dto.InsertCertificationReq) (bool, error)
 	Update(ctx context.Context, id uuid.UUID, req dto.UpdateCertificationReq) (bool, error)
+	Delete(ctx context.Context, id uuid.UUID) (bool, error)
 }
 
 type CertificationService interface {
 	FindByUserId(ctx context.Context, id string) (dto.BaseResp, error)
 	Insert(ctx context.Context, req dto.InsertCertificationReq) (dto.BaseResp, error)
 	Update(ctx context.Context, id string, req dto.UpdateCertificationReq) (dto.BaseResp, error)
+	Delete(ctx context.Context, id string) (dto.BaseResp, error)
 }

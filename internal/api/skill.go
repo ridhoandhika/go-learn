@@ -20,6 +20,7 @@ func Skill(app *fiber.Group, skillService domain.SkillService, authMid fiber.Han
 	// app.Get("skill/:userId", authMid, handler.FindByUserId)
 	app.Post("skill", authMid, handler.Insert)
 	app.Put("skill/:id", authMid, handler.Update)
+	app.Delete("skill/:id", authMid, handler.Delete)
 }
 
 // // @Security BearerAuth
@@ -85,6 +86,30 @@ func (a skillApi) Update(ctx *fiber.Ctx) error {
 	}
 
 	data, err := a.skillService.Update(ctx.Context(), id, req)
+
+	if err != nil {
+		return ctx.SendStatus(util.GetHttpStatus(err))
+	}
+
+	return ctx.Status(200).JSON(data)
+}
+
+// @Security BearerAuth
+// @Summary Delete Skill
+// @Tags skill
+// @Accept json
+// @Produce json
+// @Param id path string true "Skill ID"
+// @Success 200 {object} dto.BaseResp "Skill resp"
+// @Failure 400 {object} dto.ErrorSchema "Bad Request"
+// @Router /api/skill/{id} [delete]
+func (a skillApi) Delete(ctx *fiber.Ctx) error {
+	id := ctx.Params("id")
+	if id == "" {
+		return ctx.Status(200).JSON(util.ErrorResponse("400", "Permintaan Tidak Valid", "Bad Request"))
+	}
+
+	data, err := a.skillService.Delete(ctx.Context(), id)
 
 	if err != nil {
 		return ctx.SendStatus(util.GetHttpStatus(err))

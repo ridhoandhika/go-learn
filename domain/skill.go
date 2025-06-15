@@ -37,10 +37,12 @@ type SkillRepository interface {
 	FindByUserId(ctx context.Context, id uuid.UUID) ([]Skill, error)
 	Insert(ctx context.Context, req dto.InsertSkillReq) (bool, error)
 	Update(ctx context.Context, id uuid.UUID, req dto.UpdateSkillReq) (bool, error)
+	Delete(ctx context.Context, id uuid.UUID) (bool, error)
 }
 
 type SkillService interface {
 	FindByUserId(ctx context.Context, id string) (dto.BaseResp, error)
 	Insert(ctx context.Context, req dto.InsertSkillReq) (dto.BaseResp, error)
 	Update(ctx context.Context, id string, req dto.UpdateSkillReq) (dto.BaseResp, error)
+	Delete(ctx context.Context, id string) (dto.BaseResp, error)
 }

@@ -368,6 +368,31 @@ paths:
       tags:
       - certification
   /api/certification/{id}:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: Certification ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Certification resp
+          schema:
+            $ref: '#/definitions/dto.BaseResp'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorSchema'
+      security:
+      - BearerAuth: []
+      summary: Delete Certification
+      tags:
+      - certification
     put:
       consumes:
       - application/json
@@ -574,6 +599,31 @@ paths:
       tags:
       - skill
   /api/skill/{id}:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: Skill ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Skill resp
+          schema:
+            $ref: '#/definitions/dto.BaseResp'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorSchema'
+      security:
+      - BearerAuth: []
+      summary: Delete Skill
+      tags:
+      - skill
     put:
       consumes:
       - application/json

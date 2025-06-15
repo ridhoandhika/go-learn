@@ -95,12 +95,12 @@ func (w workExperienceService) Update(ctx context.Context, workExperienceId stri
 }
 
 func (w workExperienceService) Delete(ctx context.Context, workExperienceId string) (dto.BaseResp, error) {
-	parsedEducationId, err := uuid.Parse(workExperienceId)
+	parsedWorkExperienceId, err := uuid.Parse(workExperienceId)
 	if err != nil {
 		return util.ErrorResponse("400", "Permintaan tidak valid", "Bad request"), nil
 	}
 
-	_, err = w.workExperienceRepository.Delete(ctx, parsedEducationId)
+	_, err = w.workExperienceRepository.Delete(ctx, parsedWorkExperienceId)
 	if err != nil {
 		return util.ErrorResponse("400", "Gagal", "Failed"), nil
 	}

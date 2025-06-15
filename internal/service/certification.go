@@ -110,3 +110,17 @@ func (s certificationService) Update(ctx context.Context, certificationId string
 
 	return util.ErrorResponse("200", "Sukses", "Success"), nil
 }
+
+func (s certificationService) Delete(ctx context.Context, certificationId string) (dto.BaseResp, error) {
+	parsedSkillId, err := uuid.Parse(certificationId)
+	if err != nil {
+		return util.ErrorResponse("400", "Permintaan tidak valid", "Bad request"), nil
+	}
+
+	_, err = s.certificationRepository.Delete(ctx, parsedSkillId)
+	if err != nil {
+		return util.ErrorResponse("400", "Gagal", "Failed"), nil
+	}
+
+	return util.ErrorResponse("200", "Sukses", "Success"), nil
+}

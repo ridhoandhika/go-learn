@@ -255,6 +255,46 @@ const docTemplate = `{
                         }
                     }
                 }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "certification"
+                ],
+                "summary": "Delete Certification",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Certification ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Certification resp",
+                        "schema": {
+                            "$ref": "#/definitions/dto.BaseResp"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorSchema"
+                        }
+                    }
+                }
             }
         },
         "/api/education": {
@@ -570,6 +610,46 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/dto.UpdateSkillReq"
                         }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Skill resp",
+                        "schema": {
+                            "$ref": "#/definitions/dto.BaseResp"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorSchema"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "skill"
+                ],
+                "summary": "Delete Skill",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Skill ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {

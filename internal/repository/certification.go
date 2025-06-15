@@ -93,3 +93,13 @@ func (r certificationRepository) Update(ctx context.Context, certificationId uui
 
 	return true, nil
 }
+
+func (r certificationRepository) Delete(ctx context.Context, skillId uuid.UUID) (bool, error) {
+	err := r.db.WithContext(ctx).
+		Where("certification_id = ?", skillId).
+		Delete(&domain.Certification{}).Error
+	if err != nil {
+		return false, err
+	}
+	return true, nil
+}

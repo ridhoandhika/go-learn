@@ -61,3 +61,13 @@ func (r skillRepository) Update(ctx context.Context, skillId uuid.UUID, req dto.
 
 	return true, nil
 }
+
+func (r skillRepository) Delete(ctx context.Context, skillId uuid.UUID) (bool, error) {
+	err := r.db.WithContext(ctx).
+		Where("skill_id = ?", skillId).
+		Delete(&domain.Skill{}).Error
+	if err != nil {
+		return false, err
+	}
+	return true, nil
+}

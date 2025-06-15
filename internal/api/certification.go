@@ -20,6 +20,7 @@ func Certification(app *fiber.Group, certificationService domain.CertificationSe
 	// app.Get("certification/:userId", authMid, handler.FindByUserId)
 	app.Post("certification", authMid, handler.Insert)
 	app.Put("certification/:id", authMid, handler.Update)
+	app.Delete("certification/:id", authMid, handler.Delete)
 }
 
 // // @Security BearerAuth
@@ -85,6 +86,30 @@ func (a certificationApi) Update(ctx *fiber.Ctx) error {
 	}
 
 	data, err := a.certificationService.Update(ctx.Context(), id, req)
+
+	if err != nil {
+		return ctx.SendStatus(util.GetHttpStatus(err))
+	}
+
+	return ctx.Status(200).JSON(data)
+}
+
+// @Security BearerAuth
+// @Summary Delete Certification
+// @Tags certification
+// @Accept json
+// @Produce json
+// @Param id path string true "Certification ID"
+// @Success 200 {object} dto.BaseResp "Certification resp"
+// @Failure 400 {object} dto.ErrorSchema "Bad Request"
+// @Router /api/certification/{id} [delete]
+func (a certificationApi) Delete(ctx *fiber.Ctx) error {
+	id := ctx.Params("id")
+	if id == "" {
+		return ctx.Status(200).JSON(util.ErrorResponse("400", "Permintaan Tidak Valid", "Bad Request"))
+	}
+
+	data, err := a.certificationService.Delete(ctx.Context(), id)
 
 	if err != nil {
 		return ctx.SendStatus(util.GetHttpStatus(err))

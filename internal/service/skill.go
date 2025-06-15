@@ -91,3 +91,17 @@ func (s skillService) Update(ctx context.Context, skillId string, req dto.Update
 
 	return util.ErrorResponse("200", "Sukses", "Success"), nil
 }
+
+func (s skillService) Delete(ctx context.Context, skillId string) (dto.BaseResp, error) {
+	parsedSkillId, err := uuid.Parse(skillId)
+	if err != nil {
+		return util.ErrorResponse("400", "Permintaan tidak valid", "Bad request"), nil
+	}
+
+	_, err = s.skillRepository.Delete(ctx, parsedSkillId)
+	if err != nil {
+		return util.ErrorResponse("400", "Gagal", "Failed"), nil
+	}
+
+	return util.ErrorResponse("200", "Sukses", "Success"), nil
+}
